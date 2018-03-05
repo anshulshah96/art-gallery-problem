@@ -63,10 +63,13 @@ public class Main extends JFrame {
 
         Action clear = new ClearAction();
         Action quit = new QuitAction();
-        Action showConvex = new ConvexAction();
-        Action showClosestPair = new ClosestPairAction();
-        Action showArea = new AreaAction();
-        Action showVoronoi = new VoronoiAction();
+        Action random = new RandomPoints();
+        Action polygon = new PolygonAction();
+        Action trapezoid = new TrapezoidAction();
+//        Action showConvex = new ConvexAction();
+//        Action showClosestPair = new ClosestPairAction();
+//        Action showArea = new AreaAction();
+//        Action showVoronoi = new VoronoiAction();
 
 
         // Populate the menus using Action objects
@@ -79,10 +82,13 @@ public class Main extends JFrame {
         JToolBar toolbar = new JToolBar();
         toolbar.add(clear);
         toolbar.add(quit);
-        toolbar.add(showConvex);
-        toolbar.add(showClosestPair);
-        toolbar.add(showArea);
-        toolbar.add(showVoronoi);
+        toolbar.add(random);
+        toolbar.add(polygon);
+        toolbar.add(trapezoid);
+//        toolbar.add(showConvex);
+//        toolbar.add(showClosestPair);
+//        toolbar.add(showArea);
+//        toolbar.add(showVoronoi);
         contentPane.add(toolbar, BorderLayout.NORTH);
     }
 
@@ -103,12 +109,35 @@ public class Main extends JFrame {
     class RandomPoints extends AbstractAction {
 
         public RandomPoints() {
-            super("Initialize");
+            super("Random");
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
             int n = 10;
+            pane.clear();
+            pane.initPoints(n);
+        }
+    }
+
+    class PolygonAction extends AbstractAction {
+        public PolygonAction() {
+            super("Polygon");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            pane.generatePolygon();
+        }
+    }
+
+    class TrapezoidAction extends  AbstractAction {
+        public TrapezoidAction() {
+            super("Trapezoid");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
 
         }
     }
@@ -164,13 +193,7 @@ public class Main extends JFrame {
         }
 
         public void actionPerformed(ActionEvent e) {
-            // Use JOptionPane to confirm that the user
-            // really wants to quit
-            int response =
-                    JOptionPane.showConfirmDialog(Main.this,
-                            "Benar mau quit?");
-            if (response == JOptionPane.YES_OPTION)
-                System.exit(0);
+            System.exit(0);
         }
     }
 
