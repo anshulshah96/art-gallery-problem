@@ -99,6 +99,17 @@ public class Main extends JFrame {
 
       }
    }
+
+   class RandomPoints extends AbstractAction {
+
+      public RandomPoints() { super("Initialize"); }
+
+      @Override
+      public void actionPerformed(ActionEvent e) {
+         int n = 10;
+
+      }
+   }
    
    class ConvexAction extends AbstractAction {
     
