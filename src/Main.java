@@ -138,51 +138,7 @@ public class Main extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
-        }
-    }
-
-    class ConvexAction extends AbstractAction {
-
-        public ConvexAction() {
-            super("Convex");
-        }
-
-        public void actionPerformed(ActionEvent e) {
-            pane.showConvex();
-        }
-    }
-
-    class ClosestPairAction extends AbstractAction {
-
-        public ClosestPairAction() {
-            super("ClosestPair");
-        }
-
-        public void actionPerformed(ActionEvent e) {
-            pane.showClosestPair();
-        }
-    }
-
-    class AreaAction extends AbstractAction {
-
-        public AreaAction() {
-            super("Area");
-        }
-
-        public void actionPerformed(ActionEvent e) {
-            pane.showArea();
-        }
-    }
-
-    class VoronoiAction extends AbstractAction {
-
-        public VoronoiAction() {
-            super("Voronoi");
-        }
-
-        public void actionPerformed(ActionEvent e) {
-            pane.showVoronoi();
+            pane.trapezoidalization();
         }
     }
 

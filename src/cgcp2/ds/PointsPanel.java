@@ -11,9 +11,10 @@ import java.util.Collections;
 import java.awt.Point;
 
 public class PointsPanel extends JPanel {
-    private DCEL dcel;
+    private static DCEL dcel;
     private ArrayList<Point> pointList;
     private PolygonSolution polygonSolution;
+    private TrapezoidSolution trapezoidSolution;
     private ArrayList<Point> circularLineList;
     private ArrayList<Segment> closestLines;
     private ConvexHullSolution solusi1;
@@ -30,6 +31,7 @@ public class PointsPanel extends JPanel {
     public PointsPanel() {
         dcel = new DCEL();
         polygonSolution = new PolygonSolution();
+        trapezoidSolution = new TrapezoidSolution();
         solusi1 = new ConvexHullSolution();
         solusi2 = new ClosestPairSolution();
         //contains all points clicked
@@ -78,7 +80,11 @@ public class PointsPanel extends JPanel {
     }
 
     public void trapezoidalization() {
+        trapezoidSolution.pointArrayList = pointList;
+        trapezoidSolution.dcel = dcel;
+        trapezoidSolution.generateTrap();
 
+        repaint();
     }
 
     //------------------------------------------------------------
@@ -113,14 +119,6 @@ public class PointsPanel extends JPanel {
 
         //display the points count
         page.drawString("Count: " + pointList.size(), 5, 20);
-
-//
-//    if(vor.solution.vertices.size()>0)
-//    {
-//    	for (Vertex vertex : vor.solution.vertices) {
-//			page.fillOval((int)(vertex.getCoordinate().getX()-3), (int)(-vertex.getCoordinate().getY()-3), 7,7);
-//		}
-//    }
     }
 
     //***********************************************************
@@ -134,10 +132,10 @@ public class PointsPanel extends JPanel {
         //------------------------------------------------------
         public void mousePressed(MouseEvent event) {
             //create new point object
-            //in JFrame, we face a little bit problems with coordinate system.
-            //the anchor point for the coordinate system located at the up left corner
-            //the x coordinate satisfy our perspective
-            //while the y coordinate doesn't
+            //in JFrame, we face a little bit problems with coord system.
+            //the anchor point for the coord system located at the up left corner
+            //the x coord satisfy our perspective
+            //while the y coord doesn't
             //we mirror the polygon on the x-axis, so that the orientation fits our perspective
             Point newPoint = new Point(event.getPoint().x, -event.getPoint().y);
 

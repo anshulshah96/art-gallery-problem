@@ -4,15 +4,13 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.TreeSet;
 
 public class PolygonSolution {
 
     public DCEL dcel;
     public ArrayList<Point> pointArrayList;
     public ArrayList<Point> linePointList;
-
-    public PolygonSolution() {
-    }
 
     public void generatePolygon() {
         pointArrayList.sort((o1, o2) -> {
@@ -76,10 +74,9 @@ public class PolygonSolution {
         iFace.edge = eList.get(0);
         oFace.edge = eList.get(0);
 
-        dcel = new DCEL();
-        dcel.edges = new HashSet<>(eList);
-        dcel.vertices = new HashSet<>(vList);
-        dcel.faces = new HashSet<>();
+        dcel.edges = new TreeSet<>(eList);
+        dcel.vertices = new TreeSet<>(vList);
+        dcel.faces = new TreeSet<>();
         dcel.faces.add(iFace);
         dcel.faces.add(oFace);
     }
