@@ -73,6 +73,9 @@ public class PolygonSolution {
             }
         }
 
+        iFace.edge = eList.get(0);
+        oFace.edge = eList.get(0);
+
         dcel = new DCEL();
         dcel.edges = new HashSet<>(eList);
         dcel.vertices = new HashSet<>(vList);
