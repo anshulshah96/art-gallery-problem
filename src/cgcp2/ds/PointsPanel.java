@@ -18,7 +18,6 @@ public class PointsPanel extends JPanel {
     private ArrayList<Segment> closestLines;
     private ConvexHullSolution solusi1;
     private ClosestPairSolution solusi2;
-    private VoronoiSolution solusi3;
     private boolean showConvex;
     private boolean showClosest;
     private boolean showVoronoi;
@@ -115,29 +114,6 @@ public class PointsPanel extends JPanel {
         //display the points count
         page.drawString("Count: " + pointList.size(), 5, 20);
 
-        page.setColor(Color.red);
-        if (showVoronoi && pointList.size() > 1) {
-            solusi3 = new VoronoiSolution(pointList, 0, -getHeight(), 0, getWidth());
-            for (Face f : solusi3.solution.faces.values()) {
-                Edge e = f.getOuter();
-                Edge start = e;
-                while (true) {
-                    if (e.getTwin().getOrigin() != null)
-                        page.drawLine((int) e.getOrigin().getCoordinate().getX(), (int) -e.getOrigin().getCoordinate().getY(), (int) e.getTwin().getOrigin().getCoordinate().getX(), (int) -e.getTwin().getOrigin().getCoordinate().getY());
-                    else continue;
-                    if (e.getNext() != null && e.getNext() != start) e = e.getNext();
-                    else break;
-                }
-                e = start;
-                while (true) {
-                    if (e.getTwin().getOrigin() != null)
-                        page.drawLine((int) e.getOrigin().getCoordinate().getX(), (int) -e.getOrigin().getCoordinate().getY(), (int) e.getTwin().getOrigin().getCoordinate().getX(), (int) -e.getTwin().getOrigin().getCoordinate().getY());
-                    else continue;
-                    if (e.getPrev() != null && e.getPrev() != start) e = e.getPrev();
-                    else break;
-                }
-            }
-        }
 //
 //    if(vor.solution.vertices.size()>0)
 //    {

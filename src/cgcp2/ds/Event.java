@@ -52,7 +52,4 @@ class Event implements Comparable<Event> {
         return false;
     }
 
-    public Point getCircleCenter() {
-        return VoronoiSolution.getCircleCenter(cocirculars.get(0), cocirculars.get(1), cocirculars.get(2));
-    }
 }
