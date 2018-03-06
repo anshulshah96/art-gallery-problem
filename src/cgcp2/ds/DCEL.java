@@ -64,6 +64,10 @@ class Vertex implements Comparable<Vertex> {
     public String toString() {
         return coord.toString();
     }
+
+    public java.awt.Point toPoint() {
+        return new java.awt.Point((int)this.coord.x, (int)this.coord.y);
+    }
 }
 
 class Edge implements Comparable<Edge> {
@@ -119,6 +123,11 @@ class Edge implements Comparable<Edge> {
         this.rFace = rFace;
     }
 
+    public Edge(Vertex origin, Vertex dest) {
+        this.origin = origin;
+        this.dest = dest;
+    }
+
     public Edge(Vertex origin, Vertex dest, Edge nEdge, Edge pEdge, Face lFace, Face rFace) {
 
         this.origin = origin;
@@ -131,7 +140,34 @@ class Edge implements Comparable<Edge> {
 
     @Override
     public int compareTo(Edge o) {
-        return 0;
+        Edge up;
+        Edge down;
+        int mul = 1;
+        if(Math.max(o.dest.coord.y, o.origin.coord.y) > Math.max(this.dest.coord.y, this.origin.coord.y)) {
+            up = o;
+            down = this;
+        }
+        else {
+            up = this;
+            down = o;
+            mul = -1;
+        }
+
+        double dmaxx;
+        if(down.dest.coord.y < down.origin.coord.y)
+            dmaxx = down.origin.coord.x;
+        else
+            dmaxx = down.dest.coord.x;
+
+        double uminx;
+        if(up.dest.coord.y < up.origin.coord.y)
+            uminx = up.dest.coord.x;
+        else
+            uminx = up.origin.coord.x;
+
+        if(uminx < dmaxx)
+            return mul;
+        else return -mul;
     }
 }
 

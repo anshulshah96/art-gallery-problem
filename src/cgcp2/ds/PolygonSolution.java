@@ -1,10 +1,7 @@
 package cgcp2.ds;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 public class PolygonSolution {
 
@@ -32,6 +29,7 @@ public class PolygonSolution {
             else return -1;
         });
         nxtList.add(minPoint);
+        Collections.reverse(nxtList);
         linePointList = (ArrayList<Point>) nxtList.clone();
 
         Face iFace = new Face(null);
@@ -39,7 +37,7 @@ public class PolygonSolution {
 
         List<Vertex> vList = new ArrayList<Vertex>();
         List<Edge> eList = new ArrayList<Edge>();
-        for (Point p : pointArrayList) {
+        for (Point p : nxtList) {
             Vertex tVertex = new Vertex(cgcp2.ds.Point.toPoint(p), null);
             vList.add(tVertex);
         }

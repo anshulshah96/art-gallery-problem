@@ -66,11 +66,18 @@ public class PointsPanel extends JPanel {
             pointList.add(new Point(x, y));
         }
 
+//        pointList.add(new Point(200, -50));
+//        pointList.add(new Point(300, -125));
+//        pointList.add(new Point(100, -175));
+//        pointList.add(new Point(200, -250));
+
+
         repaint();
     }
 
     public void generatePolygon() {
         dcel = new DCEL();
+        closestLines.clear();
         polygonSolution.pointArrayList = pointList;
         polygonSolution.dcel = dcel;
         polygonSolution.generatePolygon();
@@ -82,7 +89,9 @@ public class PointsPanel extends JPanel {
     public void trapezoidalization() {
         trapezoidSolution.pointArrayList = pointList;
         trapezoidSolution.dcel = dcel;
+        trapezoidSolution.closestLines = closestLines;
         trapezoidSolution.generateTrap();
+        closestLines = trapezoidSolution.closestLines;
 
         repaint();
     }
@@ -106,11 +115,9 @@ public class PointsPanel extends JPanel {
         }
         //rendering the closest segments
         page.setColor(Color.white);
-        if (closestLines != null && closestLines.size() > 0 && showClosest) {
+        if (closestLines != null && closestLines.size() > 0) {
             for (int ii = 0; ii < closestLines.size(); ii++)
                 page.drawLine(closestLines.get(ii).a.x, -1 * closestLines.get(ii).a.y, closestLines.get(ii).b.x, -1 * closestLines.get(ii).b.y);
-            DecimalFormat df = new DecimalFormat("#.##");
-            page.drawString("Shortest Segment: " + df.format(closestLines.get(0).l), 5, 45);
         }
 
         //display the area
