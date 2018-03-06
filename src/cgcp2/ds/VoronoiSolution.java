@@ -72,7 +72,7 @@ public class VoronoiSolution {
             System.out.println(f.toString());
         }
         System.out.println("Halfedge : ");
-        for (HalfEdge e : solution.edges) {
+        for (Edge e : solution.edges) {
             System.out.println(e.getOrigin().toString() + " " + e.getTwin().getOrigin().toString());
         }
         System.out.println("Vertex : ");
@@ -103,8 +103,8 @@ public class VoronoiSolution {
 
         AvlNode newBreakPoint = null;
 
-        HalfEdge leftHalf = leftBreakPoint.getIncidentEdge();
-        HalfEdge rightHalf = rightBreakPoint.getIncidentEdge();
+        Edge leftHalf = leftBreakPoint.getIncidentEdge();
+        Edge rightHalf = rightBreakPoint.getIncidentEdge();
 
         if (a.isLeftChildofParent()) {
             //update tree structure
@@ -152,8 +152,8 @@ public class VoronoiSolution {
         Vertex vv = new Vertex(circleCenter);
         solution.vertices.add(vv);
         //Create edge
-        HalfEdge e1 = new HalfEdge();
-        HalfEdge e2 = new HalfEdge();
+        Edge e1 = new Edge();
+        Edge e2 = new Edge();
         e1.setIncident(solution.faces.get(leftArc.getLeftParabolaFocus()));
         e2.setIncident(solution.faces.get(rightArc.getLeftParabolaFocus()));
         e1.setTwin(e2);
@@ -269,8 +269,8 @@ public class VoronoiSolution {
                 //Create new half edges in Voronoi Diagram
                 //that will be traced out by breakpoints.
                 //Create edge
-                HalfEdge e1 = new HalfEdge();
-                HalfEdge e2 = new HalfEdge();
+                Edge e1 = new Edge();
+                Edge e2 = new Edge();
                 solution.edges.add(e1);
                 solution.edges.add(e2);
                 //create face
@@ -333,8 +333,8 @@ public class VoronoiSolution {
                 //that will be traced out by breakpoints.
 
                 //Create edge
-                HalfEdge e1 = new HalfEdge();
-                HalfEdge e2 = new HalfEdge();
+                Edge e1 = new Edge();
+                Edge e2 = new Edge();
                 solution.edges.add(e1);
                 solution.edges.add(e2);
                 //create face

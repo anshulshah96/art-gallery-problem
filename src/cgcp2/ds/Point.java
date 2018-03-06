@@ -53,4 +53,7 @@ public class Point implements Comparable<Point> {
         return "(" + getX() + "," + getY() + ")";
     }
 
+    public static Point toPoint(java.awt.Point point) {
+        return new Point(point.x, point.y);
+    }
 }

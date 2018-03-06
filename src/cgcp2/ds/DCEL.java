@@ -1,76 +1,55 @@
 package cgcp2.ds;
 
-import java.util.HashMap;
 import java.util.HashSet;
 
 
 public class DCEL {
     public HashSet<Vertex> vertices;
-    public HashSet<HalfEdge> edges;
-    public HashMap<Point, Face> faces;
+    public HashSet<Edge> edges;
+    public HashSet<Face> faces;
 
     public DCEL() {
         vertices = new HashSet<Vertex>();
-        edges = new HashSet<HalfEdge>();
-        faces = new HashMap<Point, Face>();
+        edges = new HashSet<Edge>();
+        faces = new HashSet<Face>();
     }
 
     public HashSet<Vertex> getVertices() {
         return vertices;
     }
 
-    public HashSet<HalfEdge> getEdges() {
+    public HashSet<Edge> getEdges() {
         return edges;
     }
 
-    public HashMap<Point, Face> getFaces() {
+    public HashSet<Face> getFaces() {
         return faces;
     }
-
-
 }
 
 class Vertex implements Comparable<Vertex> {
-    private Point coordinate;
-    private HalfEdge incidentEdge;
+    public Point coordinate;
+    public Edge incidentEdge;
 
-    public Vertex(Point coordinate, HalfEdge incidentEdge) {
+    public Vertex(Point coordinate, Edge incidentEdge) {
         this.coordinate = coordinate;
         this.incidentEdge = incidentEdge;
-    }
-
-    public Vertex() {
-        this(null, null);
-    }
-
-    public Vertex(Point point) {
-        this(point, null);
     }
 
     public Point getCoordinate() {
         return coordinate;
     }
 
-    public HalfEdge getIncident() {
+    public void setCoordinate(Point coordinate) {
+        this.coordinate = coordinate;
+    }
+
+    public Edge getIncidentEdge() {
         return incidentEdge;
     }
 
-    public void setCoordinate(Point p) {
-        coordinate = p;
-    }
-
-    public void setIncident(HalfEdge e) {
-        incidentEdge = e;
-    }
-
-    @Override
-    public int hashCode() {
-        return coordinate.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return this == o;
+    public void setIncidentEdge(Edge incidentEdge) {
+        this.incidentEdge = incidentEdge;
     }
 
     @Override
@@ -83,125 +62,75 @@ class Vertex implements Comparable<Vertex> {
     }
 }
 
-class HalfEdge {
-    public Vertex origin;
-    private HalfEdge twin, next, previous;
-    private Face incidentFace;
-
-    public HalfEdge(Vertex origin, HalfEdge twin, HalfEdge next, HalfEdge previous, Face incidentFace) {
-        this.origin = origin;
-        this.twin = twin;
-        this.next = next;
-        this.previous = previous;
-        this.incidentFace = incidentFace;
-    }
-
-    public HalfEdge() {
-        this(null, null, null, null, null);
-    }
-
-    public String toString() {
-        return "Origin : " + origin;
-
-    }
+class Edge {
+    public Vertex origin, dest;
+    public Edge nEdge, pEdge;
+    public Face lFace, rFace;
 
     public Vertex getOrigin() {
         return origin;
     }
 
-    public HalfEdge getTwin() {
-        return twin;
+    public void setOrigin(Vertex origin) {
+        this.origin = origin;
     }
 
-    public HalfEdge getNext() {
-        return next;
+    public Vertex getDest() {
+        return dest;
     }
 
-    public HalfEdge getPrev() {
-        return previous;
+    public void setDest(Vertex dest) {
+        this.dest = dest;
     }
 
-    public Face getIncident() {
-        return incidentFace;
+    public Edge getnEdge() {
+        return nEdge;
     }
 
-    public void setOrigin(Vertex o) {
-        origin = o;
+    public void setnEdge(Edge nEdge) {
+        this.nEdge = nEdge;
     }
 
-    public void setTwin(HalfEdge e) {
-        twin = e;
+    public Edge getpEdge() {
+        return pEdge;
     }
 
-    public void setNext(HalfEdge e) {
-        next = e;
+    public void setpEdge(Edge pEdge) {
+        this.pEdge = pEdge;
     }
 
-    public void setPrev(HalfEdge e) {
-        previous = e;
+    public Face getlFace() {
+        return lFace;
     }
 
-    public void setIncident(Face f) {
-        incidentFace = f;
+    public void setlFace(Face lFace) {
+        this.lFace = lFace;
     }
 
+    public Face getrFace() {
+        return rFace;
+    }
 
+    public void setrFace(Face rFace) {
+        this.rFace = rFace;
+    }
+
+    public Edge(Vertex origin, Vertex dest, Edge nEdge, Edge pEdge, Face lFace, Face rFace) {
+
+        this.origin = origin;
+        this.dest = dest;
+        this.nEdge = nEdge;
+        this.pEdge = pEdge;
+        this.lFace = lFace;
+        this.rFace = rFace;
+    }
 }
 
 class Face {
-    private HalfEdge outerComponent, innerComponent;
-    Point site;
+    public Edge edge;
 
-    public Face(Point site, HalfEdge outerComponent, HalfEdge innerComponent) {
-        this.site = site;
-        this.innerComponent = innerComponent;
-        this.outerComponent = outerComponent;
-    }
-
-    public Face(Point p) {
-        this(p, null, null);
-    }
-
-    public Face() {
-        this(null, null, null);
-    }
-
-    public String toString() {
-        return "Center :" + site;
-    }
-
-    public HalfEdge getOuter() {
-        return outerComponent;
-    }
-
-    public HalfEdge getInner() {
-        return innerComponent;
-    }
-
-    public Point getSite() {
-        return site;
-    }
-
-    public void setOuter(HalfEdge e) {
-        outerComponent = e;
-    }
-
-    public void setInner(HalfEdge e) {
-        innerComponent = e;
-    }
-
-    public void setSite(Point p) {
-        site = p;
-    }
-
-    @Override
-    public int hashCode() {
-        return site.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return this == o;
+    public Face(Edge edge) {
+        this.edge = edge;
     }
 }
 

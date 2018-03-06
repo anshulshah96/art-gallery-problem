@@ -4,7 +4,7 @@ class AvlNode {
 
     //Voronoi
     private Event circleEvent = null;
-    private HalfEdge incidentEdge = null;
+    private Edge incidentEdge = null;
     private Point leftParabolaFocus = null;
     private Point rightParabolaFocus = null;
     int side;
@@ -132,7 +132,7 @@ class AvlNode {
         this.side = 1;
     }
 
-    public void setIncidentEdge(HalfEdge h) {
+    public void setIncidentEdge(Edge h) {
         this.incidentEdge = h;
     }
 
@@ -144,7 +144,7 @@ class AvlNode {
         return this.circleEvent;
     }
 
-    public HalfEdge getIncidentEdge() {
+    public Edge getIncidentEdge() {
         return this.incidentEdge;
     }
 

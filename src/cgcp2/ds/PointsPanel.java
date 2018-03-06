@@ -8,7 +8,6 @@ import java.awt.*;
 import java.text.*;
 import java.awt.event.*;
 import java.util.Collections;
-import java.util.Comparator;
 import java.awt.Point;
 
 public class PointsPanel extends JPanel {
@@ -120,8 +119,8 @@ public class PointsPanel extends JPanel {
         if (showVoronoi && pointList.size() > 1) {
             solusi3 = new VoronoiSolution(pointList, 0, -getHeight(), 0, getWidth());
             for (Face f : solusi3.solution.faces.values()) {
-                HalfEdge e = f.getOuter();
-                HalfEdge start = e;
+                Edge e = f.getOuter();
+                Edge start = e;
                 while (true) {
                     if (e.getTwin().getOrigin() != null)
                         page.drawLine((int) e.getOrigin().getCoordinate().getX(), (int) -e.getOrigin().getCoordinate().getY(), (int) e.getTwin().getOrigin().getCoordinate().getX(), (int) -e.getTwin().getOrigin().getCoordinate().getY());
