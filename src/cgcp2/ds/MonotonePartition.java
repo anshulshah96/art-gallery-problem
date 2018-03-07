@@ -148,6 +148,7 @@ public class MonotonePartition {
 
     public ArrayList<DCEL> getSeparateDCEL() {
         ArrayList<DCEL> dcelArrayList = new ArrayList<>();
+        int excount = 0;
         for(Face face : dcel.faces) {
             ArrayList<Point> pointArrayList = new ArrayList<>();
             Edge edge = face.edge;
@@ -169,7 +170,8 @@ public class MonotonePartition {
                     edge = edge.nEdge;
                 }
             }
-            if (pointArrayList.size() == dcel.vertices.size()) {
+            if (pointArrayList.size() == dcel.vertices.size() && excount == 0) {
+                excount++;
                 continue;
             }
             DCEL dcel = new DCEL();

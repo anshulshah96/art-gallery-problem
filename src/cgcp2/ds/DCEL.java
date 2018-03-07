@@ -72,6 +72,15 @@ class Vertex implements Comparable<Vertex> {
     public static double slope(Vertex orig, Vertex dest) {
         return Math.atan2(dest.coord.y - orig.coord.y, dest.coord.x - orig.coord.x);
     }
+
+    public boolean isReflex() {
+        java.awt.Point v1 = incidentEdge.pEdge.origin.toPoint();
+        java.awt.Point v2 = this.toPoint();
+        java.awt.Point v3 = incidentEdge.dest.toPoint();
+
+        double ans = (v1.x*v2.y + v2.x*v3.y + v3.x*v1.y) - (v1.y*v2.x + v2.y*v3.x + v3.y*v1.x);
+        return ans < 0;
+    }
 }
 
 class Edge implements Comparable<Edge> {
@@ -155,6 +164,7 @@ class Edge implements Comparable<Edge> {
     @Override
     public int compareTo(Edge o) {
         if (this.dest == o.dest && this.origin == o.origin) return 0;
+        if (this.origin == o.dest && this.dest == o.origin) return 0;
         if (o.origin == this.dest) {
             int mul = 1;
             if (o.dest.coord.y > o.origin.coord.y && this.origin.coord.y > o.origin.coord.y)

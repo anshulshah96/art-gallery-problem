@@ -20,6 +20,7 @@ public class PointsPanel extends JPanel {
     private ArrayList<Segment> closestLines;
     private MonotonePartition monotonePartition;
     private ArrayList<Segment> partitionLines;
+    private ArrayList<Segment> trigLines;
 
     //-----------------------------------------------------------
     //  Constructor:
@@ -41,31 +42,33 @@ public class PointsPanel extends JPanel {
 
         partitionLines = new ArrayList<Segment>();
 
+        trigLines = new ArrayList<>();
+
         //setting the background black
         setBackground(Color.black);
 
         //setting the canvas size
-        setPreferredSize(new Dimension(400, 400));
+        setPreferredSize(new Dimension(800, 600));
     }
 
     public void initPoints(int n) {
         pointList.clear();
 
-        int ll = 50;
-        int ul = 350;
+//        int ll = 50;
+//        int ul = 350;
+//
+//        for (int i = 0; i < n; i++) {
+//            int x = ll + (int) (Math.random() * (ul - ll));
+//            int y = ll + (int) (Math.random() * (ul - ll));
+//            y = -y;
+//            pointList.add(new Point(x, y));
+//        }
+//        System.out.println(pointList);
 
-        for (int i = 0; i < n; i++) {
-            int x = ll + (int) (Math.random() * (ul - ll));
-            int y = ll + (int) (Math.random() * (ul - ll));
-            y = -y;
-            pointList.add(new Point(x, y));
-        }
-        System.out.println(pointList);
-
-//        pointList.add(new Point(200, -50));
-//        pointList.add(new Point(300, -125));
-//        pointList.add(new Point(100, -175));
-//        pointList.add(new Point(200, -100));
+        pointList.add(new Point(200, -50));
+        pointList.add(new Point(300, -125));
+        pointList.add(new Point(100, -175));
+        pointList.add(new Point(200, -250));
 
 
         repaint();
@@ -75,6 +78,7 @@ public class PointsPanel extends JPanel {
         dcel = new DCEL();
         closestLines.clear();
         partitionLines.clear();
+        trigLines.clear();
         polygonSolution.pointArrayList = pointList;
         polygonSolution.dcel = dcel;
         polygonSolution.generatePolygon();
@@ -99,14 +103,19 @@ public class PointsPanel extends JPanel {
         monotonePartition.partitionLines = partitionLines;
         monotonePartition.generate();
         partitionLines = monotonePartition.partitionLines;
-        monotonePartition.printAllFaces();
+//        monotonePartition.printAllFaces();
         dcelArrayList = monotonePartition.getSeparateDCEL();
 
         repaint();
     }
 
     public void triangulatePartitions() {
-        
+        trigLines.clear();
+        for (DCEL dcel : dcelArrayList) {
+            Triangulation trisol = new Triangulation(dcel, trigLines);
+            trisol.generate();
+        }
+        repaint();
     }
 
     //------------------------------------------------------------
@@ -140,6 +149,13 @@ public class PointsPanel extends JPanel {
                 page.drawLine(partitionLines.get(ii).a.x, -1 * partitionLines.get(ii).a.y, partitionLines.get(ii).b.x, -1 * partitionLines.get(ii).b.y);
         }
 
+        //rendering the partition segments
+        page.setColor(Color.RED);
+        if (trigLines != null && trigLines.size() > 0) {
+            for (int ii = 0; ii < trigLines.size(); ii++)
+                page.drawLine(trigLines.get(ii).a.x, -1 * trigLines.get(ii).a.y, trigLines.get(ii).b.x, -1 * trigLines.get(ii).b.y);
+        }
+
         //display the points count
         page.drawString("Count: " + pointList.size(), 5, 20);
     }
@@ -151,6 +167,7 @@ public class PointsPanel extends JPanel {
         circularLineList.clear();
         closestLines.clear();
         partitionLines.clear();
+        trigLines.clear();
         //clear the canvas
         repaint();
     }

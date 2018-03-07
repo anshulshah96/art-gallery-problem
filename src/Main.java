@@ -67,6 +67,7 @@ public class Main extends JFrame {
         Action polygon = new PolygonAction();
         Action trapezoid = new TrapezoidAction();
         Action partition = new PartitionAction();
+        Action triangulation = new TriangulationAction();
 
         // Populate the menus using Action objects
         filemenu.add(clear);
@@ -82,6 +83,7 @@ public class Main extends JFrame {
         toolbar.add(polygon);
         toolbar.add(trapezoid);
         toolbar.add(partition);
+        toolbar.add(triangulation);
         contentPane.add(toolbar, BorderLayout.NORTH);
     }
 
@@ -143,6 +145,17 @@ public class Main extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             pane.monotonePartition();
+        }
+    }
+
+    class TriangulationAction extends AbstractAction {
+        public TriangulationAction() {
+            super("TriangulationAction");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            pane.triangulatePartitions();
         }
     }
 
