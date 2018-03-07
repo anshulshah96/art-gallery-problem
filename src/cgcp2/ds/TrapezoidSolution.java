@@ -23,6 +23,10 @@ public class TrapezoidSolution {
         closestLines.clear();
         TreeSet SList = new TreeSet<Edge>();
         for(Vertex v : dcel.vertices) {
+//            for(Iterator<Edge> it = SList.iterator(); it.hasNext();) {
+//                System.out.println(it.next().origin);
+//            }
+//            System.out.println();
             if(v.type == vType.start) {
                 SList.add(v.incidentEdge);
                 SList.add(v.incidentEdge.pEdge);
@@ -34,23 +38,11 @@ public class TrapezoidSolution {
             else if(v.type == vType.split) {
                 Edge be1 = v.incidentEdge;
                 Edge be2 = v.incidentEdge.pEdge;
+                Edge dummyPointEdge = new Edge(v,v);
+                Edge prev = (Edge) SList.floor(dummyPointEdge);
+                Edge next = (Edge) SList.ceiling(dummyPointEdge);
                 SList.add(be1);
                 SList.add(be2);
-                Iterator it = SList.iterator();
-                Iterator it2 = SList.iterator();
-                Edge prev = (Edge) it2.next();
-                Edge next = null;
-                while (it2.hasNext()) {
-                    Edge e1 = (Edge) it.next();
-                    Edge e2 = (Edge) it2.next();
-                    if(e2 == (be1.compareTo(be2)==1?be1:be2)) {
-                        prev = e1;
-                        it2.next();
-                        next = (Edge) it2.next();
-                        break;
-                    }
-                }
-
                 Point lIntersection = getYIntersection(prev, v.coord.y);
                 Point rIntersection = getYIntersection(next, v.coord.y);
                 closestLines.add(new Segment(lIntersection,rIntersection));
@@ -58,22 +50,11 @@ public class TrapezoidSolution {
             else if(v.type == vType.merge) {
                 Edge be1 = v.incidentEdge;
                 Edge be2 = v.incidentEdge.pEdge;
-                Iterator it = SList.iterator();
-                Iterator it2 = SList.iterator();
-                Edge prev = (Edge) it2.next();
-                Edge next = null;
-                while (it2.hasNext()) {
-                    Edge e1 = (Edge) it.next();
-                    Edge e2 = (Edge) it2.next();
-                    if(e2 == (be1.compareTo(be2)==1?be1:be2)) {
-                        prev = e1;
-                        it2.next();
-                        next = (Edge) it2.next();
-                        break;
-                    }
-                }
                 SList.remove(be1);
                 SList.remove(be2);
+                Edge dummyPointEdge = new Edge(v,v);
+                Edge prev = (Edge) SList.floor(dummyPointEdge);
+                Edge next = (Edge) SList.ceiling(dummyPointEdge);
 
                 Point lIntersection = getYIntersection(prev, v.coord.y);
                 Point rIntersection = getYIntersection(next, v.coord.y);

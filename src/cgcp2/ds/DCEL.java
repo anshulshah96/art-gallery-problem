@@ -74,6 +74,7 @@ class Edge implements Comparable<Edge> {
     public Vertex origin, dest;
     public Edge nEdge, pEdge;
     public Face lFace, rFace;
+    public double slope;
 
     public Vertex getOrigin() {
         return origin;
@@ -138,16 +139,33 @@ class Edge implements Comparable<Edge> {
         this.rFace = rFace;
     }
 
+    public double getSlope() {
+        this.slope = Math.atan2(dest.coord.y-origin.coord.y, dest.coord.x-origin.coord.x);
+        return this.slope;
+    }
+
+    public double getReverseSlope() {
+        return Math.atan2(origin.coord.y-dest.coord.y, origin.coord.x-dest.coord.x);
+    }
+
     @Override
     public int compareTo(Edge o) {
         if(this.dest == o.dest && this.origin == o.origin) return 0;
         if(o.origin == this.dest) {
-            if(o.dest.coord.x < this.origin.coord.x) return 1;
-            else return -1;
+            int mul = 1;
+            if(o.dest.coord.y > o.origin.coord.y && this.origin.coord.y > o.origin.coord.y)
+                mul = 1;
+            else mul = -1;
+            if(o.getSlope() > this.getReverseSlope()) return mul;
+            else return -mul;
         }
         else if(o.dest == this.origin) {
-            if(o.origin.coord.x < this.dest.coord.x) return 1;
-            else return -1;
+            int mul = 1;
+            if(o.origin.coord.y > o.dest.coord.y && this.dest.coord.y > o.dest.coord.y)
+                mul =-1;
+            else mul = 1;
+            if(o.getSlope() > this.getReverseSlope()) return -mul;
+            else return mul;
         }
         Edge up;
         Edge down;

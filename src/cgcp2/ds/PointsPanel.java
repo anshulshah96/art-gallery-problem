@@ -55,7 +55,7 @@ public class PointsPanel extends JPanel {
 
     public void initPoints(int n) {
         pointList.clear();
-
+//
 //        int ll = 50;
 //        int ul = 350;
 //
@@ -66,10 +66,10 @@ public class PointsPanel extends JPanel {
 //            pointList.add(new Point(x, y));
 //        }
 
-        pointList.add(new Point(193, -78));
-        pointList.add(new Point(201, -286));
-        pointList.add(new Point(216, -72));
-        pointList.add(new Point(183, -158));
+        pointList.add(new Point(105, -224));
+        pointList.add(new Point(246, -163));
+        pointList.add(new Point(292, -184));
+        pointList.add(new Point(84, -67));
 
 //        pointList.add(new Point(200, -50));
 //        pointList.add(new Point(300, -125));
