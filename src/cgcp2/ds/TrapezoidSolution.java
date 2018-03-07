@@ -81,12 +81,13 @@ public class TrapezoidSolution {
             }
             else if(v.type == vType.regL) {
                 Edge be = v.incidentEdge.pEdge;
-                Iterator it = SList.iterator();
-                while(it.next() != be) {
-
+                Iterator<Edge> it = SList.iterator();
+                Edge now = null;
+                while(it.hasNext() && now != be) {
+                    now = it.next();
                 }
-                Edge next = (Edge) it.next();
-                SList.remove(be);
+                Edge next = it.next();
+                boolean cont = SList.remove(be);
                 SList.add(v.incidentEdge);
                 Point rIntersection = getYIntersection(next, v.coord.y);
                 closestLines.add(new Segment(v.toPoint(), rIntersection));

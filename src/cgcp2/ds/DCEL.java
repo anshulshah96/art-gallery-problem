@@ -140,6 +140,15 @@ class Edge implements Comparable<Edge> {
 
     @Override
     public int compareTo(Edge o) {
+        if(this.dest == o.dest && this.origin == o.origin) return 0;
+        if(o.origin == this.dest) {
+            if(o.dest.coord.x < this.origin.coord.x) return 1;
+            else return -1;
+        }
+        else if(o.dest == this.origin) {
+            if(o.origin.coord.x < this.dest.coord.x) return 1;
+            else return -1;
+        }
         Edge up;
         Edge down;
         int mul = 1;

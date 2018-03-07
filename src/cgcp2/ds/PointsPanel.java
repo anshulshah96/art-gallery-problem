@@ -56,15 +56,20 @@ public class PointsPanel extends JPanel {
     public void initPoints(int n) {
         pointList.clear();
 
-        int ll = 50;
-        int ul = 350;
+//        int ll = 50;
+//        int ul = 350;
+//
+//        for (int i = 0; i < n; i++) {
+//            int x = ll + (int) (Math.random() * (ul - ll));
+//            int y = ll + (int) (Math.random() * (ul - ll));
+//            y = -y;
+//            pointList.add(new Point(x, y));
+//        }
 
-        for (int i = 0; i < n; i++) {
-            int x = ll + (int) (Math.random() * (ul - ll));
-            int y = ll + (int) (Math.random() * (ul - ll));
-            y = -y;
-            pointList.add(new Point(x, y));
-        }
+        pointList.add(new Point(193, -78));
+        pointList.add(new Point(201, -286));
+        pointList.add(new Point(216, -72));
+        pointList.add(new Point(183, -158));
 
 //        pointList.add(new Point(200, -50));
 //        pointList.add(new Point(300, -125));
