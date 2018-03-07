@@ -12,6 +12,7 @@ import java.awt.Point;
 
 public class PointsPanel extends JPanel {
     private static DCEL dcel;
+    private ArrayList<DCEL> dcelArrayList;
     private ArrayList<Point> pointList;
     private PolygonSolution polygonSolution;
     private TrapezoidSolution trapezoidSolution;
@@ -61,6 +62,12 @@ public class PointsPanel extends JPanel {
         }
         System.out.println(pointList);
 
+//        pointList.add(new Point(200, -50));
+//        pointList.add(new Point(300, -125));
+//        pointList.add(new Point(100, -175));
+//        pointList.add(new Point(200, -100));
+
+
         repaint();
     }
 
@@ -92,8 +99,14 @@ public class PointsPanel extends JPanel {
         monotonePartition.partitionLines = partitionLines;
         monotonePartition.generate();
         partitionLines = monotonePartition.partitionLines;
+        monotonePartition.printAllFaces();
+        dcelArrayList = monotonePartition.getSeparateDCEL();
 
         repaint();
+    }
+
+    public void triangulatePartitions() {
+        
     }
 
     //------------------------------------------------------------

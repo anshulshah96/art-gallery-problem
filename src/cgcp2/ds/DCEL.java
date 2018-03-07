@@ -220,7 +220,7 @@ class Face implements Comparable<Face> {
 
     @Override
     public int compareTo(Face o) {
-        return 0;
+        return 1;
     }
 }
 
