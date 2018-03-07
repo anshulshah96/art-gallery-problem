@@ -8,7 +8,6 @@ import java.util.TreeSet;
 public class TrapezoidSolution {
 
     public DCEL dcel;
-    public ArrayList<java.awt.Point> pointArrayList;
     public ArrayList<Segment> closestLines;
 
     public void generateTrap() {

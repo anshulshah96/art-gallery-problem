@@ -66,7 +66,7 @@ public class Main extends JFrame {
         Action random = new RandomPoints();
         Action polygon = new PolygonAction();
         Action trapezoid = new TrapezoidAction();
-
+        Action partition = new PartitionAction();
 
         // Populate the menus using Action objects
         filemenu.add(clear);
@@ -81,6 +81,7 @@ public class Main extends JFrame {
         toolbar.add(random);
         toolbar.add(polygon);
         toolbar.add(trapezoid);
+        toolbar.add(partition);
         contentPane.add(toolbar, BorderLayout.NORTH);
     }
 
@@ -106,7 +107,7 @@ public class Main extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            int n = 12;
+            int n = 10;
             pane.clear();
             pane.initPoints(n);
         }
@@ -131,6 +132,17 @@ public class Main extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             pane.trapezoidalization();
+        }
+    }
+
+    class PartitionAction extends  AbstractAction {
+        public PartitionAction() {
+            super("Partition");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            pane.monotonePartition();
         }
     }
 
