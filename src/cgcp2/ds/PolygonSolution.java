@@ -54,18 +54,16 @@ public class PolygonSolution {
             vList.get(i).incidentEdge = eList.get(i);
         }
 
-        for(int i = 0; i < eList.size(); i++) {
-            if(i==0) {
-                eList.get(i).nEdge = eList.get(i+1);
-                eList.get(i).pEdge = eList.get(eList.size()-1);
-            }
-            else if(i==eList.size()-1) {
+        for (int i = 0; i < eList.size(); i++) {
+            if (i == 0) {
+                eList.get(i).nEdge = eList.get(i + 1);
+                eList.get(i).pEdge = eList.get(eList.size() - 1);
+            } else if (i == eList.size() - 1) {
                 eList.get(i).nEdge = eList.get(0);
-                eList.get(i).pEdge = eList.get(i-1);
-            }
-            else {
-                eList.get(i).nEdge = eList.get(i+1);
-                eList.get(i).pEdge = eList.get(i-1);
+                eList.get(i).pEdge = eList.get(i - 1);
+            } else {
+                eList.get(i).nEdge = eList.get(i + 1);
+                eList.get(i).pEdge = eList.get(i - 1);
             }
         }
 

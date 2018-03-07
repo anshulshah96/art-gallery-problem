@@ -3,7 +3,7 @@ package cgcp2.ds;
 import java.util.TreeSet;
 
 enum vType {
-    split,  merge, start, end, regL, regR;
+    split, merge, start, end, regL, regR;
 }
 
 public class DCEL {
@@ -66,7 +66,11 @@ class Vertex implements Comparable<Vertex> {
     }
 
     public java.awt.Point toPoint() {
-        return new java.awt.Point((int)this.coord.x, (int)this.coord.y);
+        return new java.awt.Point((int) this.coord.x, (int) this.coord.y);
+    }
+
+    public static double slope(Vertex orig, Vertex dest) {
+        return Math.atan2(dest.coord.y - orig.coord.y, dest.coord.x - orig.coord.x);
     }
 }
 
@@ -140,61 +144,70 @@ class Edge implements Comparable<Edge> {
     }
 
     public double getSlope() {
-        this.slope = Math.atan2(dest.coord.y-origin.coord.y, dest.coord.x-origin.coord.x);
+        this.slope = Math.atan2(dest.coord.y - origin.coord.y, dest.coord.x - origin.coord.x);
         return this.slope;
     }
 
     public double getReverseSlope() {
-        return Math.atan2(origin.coord.y-dest.coord.y, origin.coord.x-dest.coord.x);
+        return Math.atan2(origin.coord.y - dest.coord.y, origin.coord.x - dest.coord.x);
     }
 
     @Override
     public int compareTo(Edge o) {
-        if(this.dest == o.dest && this.origin == o.origin) return 0;
-        if(o.origin == this.dest) {
+        if (this.dest == o.dest && this.origin == o.origin) return 0;
+        if (o.origin == this.dest) {
             int mul = 1;
-            if(o.dest.coord.y > o.origin.coord.y && this.origin.coord.y > o.origin.coord.y)
+            if (o.dest.coord.y > o.origin.coord.y && this.origin.coord.y > o.origin.coord.y)
                 mul = 1;
             else mul = -1;
-            if(o.getSlope() > this.getReverseSlope()) return mul;
+            if (o.getSlope() > this.getReverseSlope()) return mul;
             else return -mul;
-        }
-        else if(o.dest == this.origin) {
+        } else if (o.dest == this.origin) {
             int mul = 1;
-            if(o.origin.coord.y > o.dest.coord.y && this.dest.coord.y > o.dest.coord.y)
-                mul =-1;
+            if (o.origin.coord.y > o.dest.coord.y && this.dest.coord.y > o.dest.coord.y)
+                mul = -1;
             else mul = 1;
-            if(o.getSlope() > this.getReverseSlope()) return -mul;
+            if (o.getSlope() > this.getReverseSlope()) return -mul;
             else return mul;
         }
         Edge up;
         Edge down;
         int mul = 1;
-        if(Math.max(o.dest.coord.y, o.origin.coord.y) > Math.max(this.dest.coord.y, this.origin.coord.y)) {
+        if (Math.max(o.dest.coord.y, o.origin.coord.y) > Math.max(this.dest.coord.y, this.origin.coord.y)) {
             up = o;
             down = this;
-        }
-        else {
+        } else {
             up = this;
             down = o;
             mul = -1;
         }
 
-        double dmaxx;
-        if(down.dest.coord.y < down.origin.coord.y)
+        double dmaxx, dmaxy;
+        if (down.dest.coord.y < down.origin.coord.y) {
             dmaxx = down.origin.coord.x;
-        else
+            dmaxy = down.origin.coord.y;
+        } else {
             dmaxx = down.dest.coord.x;
+            dmaxy = down.dest.coord.y;
+        }
 
-        double uminx;
-        if(up.dest.coord.y < up.origin.coord.y)
+        double uminx, uminy;
+        if (up.dest.coord.y < up.origin.coord.y) {
             uminx = up.dest.coord.x;
-        else
+            uminy = up.dest.coord.y;
+        } else {
             uminx = up.origin.coord.x;
+            uminy = up.origin.coord.y;
+        }
 
-        if(uminx < dmaxx)
+        if (dmaxy < uminy) return 1;
+
+        java.awt.Point inter = TrapezoidSolution.getYIntersection(up, dmaxy);
+
+        if (inter.x < dmaxx) {
             return mul;
-        else return -mul;
+        } else return -mul;
+
     }
 }
 

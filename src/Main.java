@@ -66,10 +66,6 @@ public class Main extends JFrame {
         Action random = new RandomPoints();
         Action polygon = new PolygonAction();
         Action trapezoid = new TrapezoidAction();
-//        Action showConvex = new ConvexAction();
-//        Action showClosestPair = new ClosestPairAction();
-//        Action showArea = new AreaAction();
-//        Action showVoronoi = new VoronoiAction();
 
 
         // Populate the menus using Action objects
@@ -85,10 +81,6 @@ public class Main extends JFrame {
         toolbar.add(random);
         toolbar.add(polygon);
         toolbar.add(trapezoid);
-//        toolbar.add(showConvex);
-//        toolbar.add(showClosestPair);
-//        toolbar.add(showArea);
-//        toolbar.add(showVoronoi);
         contentPane.add(toolbar, BorderLayout.NORTH);
     }
 
@@ -114,7 +106,7 @@ public class Main extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            int n = 4;
+            int n = 12;
             pane.clear();
             pane.initPoints(n);
         }
