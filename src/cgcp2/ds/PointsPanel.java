@@ -115,7 +115,6 @@ public class PointsPanel extends JPanel {
         monotonePartition.partitionDiagonals = partitionDiagonals;
         monotonePartition.generate();
 
-//        partitionLines = monotonePartition.partitionLines;
         dcelArrayList = monotonePartition.getSeparateDCEL();
 
         repaint();

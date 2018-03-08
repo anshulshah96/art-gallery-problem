@@ -142,4 +142,30 @@ public class MonotonePartition {
         partitionLines.add(new Segment(v1.toPoint(), v2.toPoint()));
         partitionDiagonals.add(new Edge(v1, v2));
     }
+
+    public DCEL mergePartitions(ArrayList<Edge> partitionDiagonals, ArrayList<DCEL> dcelArrayList) {
+        DCEL merged = new DCEL();
+        for(Edge diag : partitionDiagonals) {
+            DCEL dcel1 = null, dcel2 = null;
+            for(DCEL dcel : dcelArrayList) {
+                if(dcel.edges.contains(diag) && dcel1 == null) {
+                    dcel1 = dcel;
+                }
+                else if(dcel.edges.contains(diag) && dcel2 == null) {
+                    dcel2 = dcel;
+                }
+                else if(dcel.edges.contains(diag)) {
+                    System.out.println("Not Possible");
+                }
+            }
+
+            merge(diag, dcel1, dcel2);
+            merged = dcel1;
+        }
+        return merged;
+    }
+
+    public void merge(Edge diag, DCEL dcel1, DCEL dcel2) {
+
+    }
 }
