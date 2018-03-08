@@ -109,7 +109,7 @@ public class Main extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            int n = 10;
+            int n = 6;
             pane.clear();
             pane.initPoints(n);
         }

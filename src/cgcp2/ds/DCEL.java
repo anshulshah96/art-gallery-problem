@@ -1,5 +1,7 @@
 package cgcp2.ds;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.TreeSet;
 
 enum vType {
@@ -28,6 +30,69 @@ public class DCEL {
     public TreeSet<Face> getFaces() {
         return faces;
     }
+
+    public boolean isEdge(Vertex a, Vertex b) {
+        Edge t = new Edge(a, b);
+        for(Edge e : this.edges) {
+            if(e.compareTo(t) == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean addEdges(ArrayList<Edge> diagonals) {
+        HashSet<Vertex> isDiag = new HashSet<>();
+        for (Edge diag : diagonals) {
+            this.edges.add(diag);
+            Face nFace = new Face(diag);
+            nFace.edge = diag;
+            this.faces.add(nFace);
+            Vertex origin = diag.origin;
+
+            if (!isDiag.contains(diag.origin)) {
+            } else if (!isDiag.contains(diag.dest)) {
+                Vertex temp = diag.origin;
+                diag.origin = diag.dest;
+                diag.dest = temp;
+            } else {
+                System.out.println("NOT POSSIBLE");
+                return false;
+            }
+
+            isDiag.add(diag.origin);
+            isDiag.add(diag.dest);
+            Edge init = diag.origin.incidentEdge.pEdge;
+            Face oFace = init.lFace;
+            while (init.dest != diag.dest && init.origin != diag.dest) {
+                if (oFace == init.lFace) {
+                    init.lFace = nFace;
+                    init = init.pEdge;
+                } else {
+                    init.rFace = nFace;
+                    init = init.nEdge;
+                }
+            }
+            if (oFace == init.lFace) {
+                Edge temp = init.pEdge;
+                init.lFace = nFace;
+                init.pEdge = diag;
+                init = temp;
+            } else {
+                Edge temp = init.nEdge;
+                init.rFace = nFace;
+                init.nEdge = diag;
+                init = temp;
+            }
+            diag.lFace = nFace;
+            diag.rFace = oFace;
+            diag.pEdge = diag.origin.incidentEdge.pEdge;
+            diag.nEdge = init;
+            diag.origin.incidentEdge.pEdge = diag;
+            oFace.edge = init;
+        }
+        return true;
+    }
 }
 
 class Vertex implements Comparable<Vertex> {
@@ -38,6 +103,10 @@ class Vertex implements Comparable<Vertex> {
     public Vertex(Point coord, Edge incidentEdge) {
         this.coord = coord;
         this.incidentEdge = incidentEdge;
+    }
+
+    public Vertex(java.awt.Point point) {
+        this.coord = new Point(point.x, point.y);
     }
 
     public Point getCoord() {
@@ -140,6 +209,11 @@ class Edge implements Comparable<Edge> {
     public Edge(Vertex origin, Vertex dest) {
         this.origin = origin;
         this.dest = dest;
+    }
+
+    public Edge(Segment segment) {
+        this.origin = new Vertex(segment.a);
+        this.dest = new Vertex(segment.b);
     }
 
     public Edge(Vertex origin, Vertex dest, Edge nEdge, Edge pEdge, Face lFace, Face rFace) {

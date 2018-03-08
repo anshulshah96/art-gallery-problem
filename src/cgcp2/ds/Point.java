@@ -12,6 +12,12 @@ public class Point implements Comparable<Point> {
         this.y = y;
     }
 
+    Point(java.awt.Point point) {
+        this.hashCode = hash++;
+        this.x = point.x;
+        this.y = point.y;
+    }
+
     @Override
     public int compareTo(Point o) {
         if (this.y == o.y) {

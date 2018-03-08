@@ -6,16 +6,16 @@ import java.util.*;
 public class MonotonePartition {
     public DCEL dcel;
     public ArrayList<Segment> partitionLines;
-    private ArrayList<Edge> diagonals;
+    public ArrayList<Edge> partitionDiagonals;
 
     public MonotonePartition() {
         partitionLines = new ArrayList<>();
-        diagonals = new ArrayList<>();
+        partitionDiagonals = new ArrayList<>();
     }
 
     public void generate() {
         partitionLines.clear();
-        diagonals.clear();
+        partitionDiagonals.clear();
 
         TreeSet<Edge> SList = new TreeSet<Edge>();
         TreeMap<Edge, Vertex> helper = new TreeMap<Edge, Vertex>();
@@ -71,53 +71,7 @@ public class MonotonePartition {
             }
 
         }
-        HashSet<Vertex> isDiag = new HashSet<>();
-        for (Edge diag : diagonals) {
-            Face nFace = new Face(diag);
-            nFace.edge = diag;
-            dcel.faces.add(nFace);
-            Vertex origin = diag.origin;
-
-            if (!isDiag.contains(diag.origin)) {
-            } else if (!isDiag.contains(diag.dest)) {
-                Vertex temp = diag.origin;
-                diag.origin = diag.dest;
-                diag.dest = temp;
-            } else {
-                System.out.println("NOT POSSIBLE");
-            }
-
-            isDiag.add(diag.origin);
-            isDiag.add(diag.dest);
-            Edge init = diag.origin.incidentEdge.pEdge;
-            Face oFace = init.lFace;
-            while (init.dest != diag.dest && init.origin != diag.dest) {
-                if (oFace == init.lFace) {
-                    init.lFace = nFace;
-                    init = init.pEdge;
-                } else {
-                    init.rFace = nFace;
-                    init = init.nEdge;
-                }
-            }
-            if (oFace == init.lFace) {
-                Edge temp = init.pEdge;
-                init.lFace = nFace;
-                init.pEdge = diag;
-                init = temp;
-            } else {
-                Edge temp = init.nEdge;
-                init.rFace = nFace;
-                init.nEdge = diag;
-                init = temp;
-            }
-            diag.lFace = nFace;
-            diag.rFace = oFace;
-            diag.pEdge = diag.origin.incidentEdge.pEdge;
-            diag.nEdge = init;
-            diag.origin.incidentEdge.pEdge = diag;
-            oFace.edge = init;
-        }
+        dcel.addEdges(partitionDiagonals);
     }
 
     public void printAllFaces() {
@@ -186,6 +140,6 @@ public class MonotonePartition {
 
     private void addEdge(Vertex v1, Vertex v2) {
         partitionLines.add(new Segment(v1.toPoint(), v2.toPoint()));
-        diagonals.add(new Edge(v1, v2));
+        partitionDiagonals.add(new Edge(v1, v2));
     }
 }
