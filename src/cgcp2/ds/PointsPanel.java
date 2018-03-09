@@ -58,7 +58,7 @@ public class PointsPanel extends JPanel {
 
     public void initPoints(int n) {
         pointList.clear();
-
+//
 //        int ll = 50;
 //        int ul = 350;
 //
@@ -76,13 +76,15 @@ public class PointsPanel extends JPanel {
 //        Non Simple Polygon
 //       [java.awt.Point[x=165,y=-324], java.awt.Point[x=74,y=-236], java.awt.Point[x=119,y=-344], java.awt.Point[x=142,y=-236], java.awt.Point[x=116,y=-330], java.awt.Point[x=240,y=-327]]
 
+//       [java.awt.Point[x=163,y=-222], java.awt.Point[x=127,y=-191], java.awt.Point[x=176,y=-307], java.awt.Point[x=151,y=-282], java.awt.Point[x=173,y=-137], java.awt.Point[x=215,y=-314]]
 
-        pointList.add(new Point(269, -277));
-        pointList.add(new Point(252, -253));
-        pointList.add(new Point(315, -266));
-        pointList.add(new Point(313, -204));
-        pointList.add(new Point(296, -115));
-        pointList.add(new Point(224, -267));
+
+        pointList.add(new Point(163, -222));
+        pointList.add(new Point(127, -191));
+        pointList.add(new Point(176, -307));
+        pointList.add(new Point(151, -282));
+        pointList.add(new Point(173, -137));
+        pointList.add(new Point(215, -314));
 
 //        pointList.add(new Point(200, -50));
 //        pointList.add(new Point(300, -125));

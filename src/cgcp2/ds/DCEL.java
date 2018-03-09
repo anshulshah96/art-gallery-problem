@@ -41,6 +41,20 @@ public class DCEL {
         return false;
     }
 
+    public boolean isEdge(Edge edge) {
+        for (Edge e : this.edges) {
+            if (e.compareTo(edge) == 0) return true;
+        }
+        return false;
+    }
+
+    public boolean addEdge(Edge edge) {
+        if (isEdge(edge)) {
+            return false;
+        } else this.edges.add(edge);
+        return true;
+    }
+
     public boolean addEdges(ArrayList<Edge> diagonals) {
         HashSet<Vertex> isDiag = new HashSet<>();
         for (Edge diag : diagonals) {
@@ -91,6 +105,13 @@ public class DCEL {
             oFace.edge = init;
         }
         return true;
+    }
+
+    public Edge getSameEdge(Edge edge) {
+        for (Edge cur : this.edges) {
+            if(cur.compareTo(edge) == 0) return cur;
+        }
+        return null;
     }
 }
 
@@ -292,6 +313,10 @@ class Edge implements Comparable<Edge> {
         } else return -mul;
 
     }
+
+    public String toString() {
+        return origin.toString()+"|"+dest.toString();
+    }
 }
 
 class Face implements Comparable<Face> {
@@ -355,7 +380,7 @@ class Face implements Comparable<Face> {
             nVert++;
         }
 
-        return new java.awt.Point((int)xsum/nVert, (int)ysum/nVert);
+        return new java.awt.Point((int) xsum / nVert, (int) ysum / nVert);
     }
 }
 

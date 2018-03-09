@@ -143,11 +143,11 @@ public class MonotonePartition {
         for (Edge diag : partitionDiagonals) {
             DCEL dcel1 = null, dcel2 = null;
             for (DCEL dcel : dcelArrayList) {
-                if (isEdgeContained(dcel, diag) && dcel1 == null) {
+                if (dcel.isEdge(diag) && dcel1 == null) {
                     dcel1 = dcel;
-                } else if (isEdgeContained(dcel, diag) && dcel2 == null) {
+                } else if (dcel.isEdge(diag) && dcel2 == null) {
                     dcel2 = dcel;
-                } else if (isEdgeContained(dcel, diag)) {
+                } else if (dcel.isEdge(diag)) {
                     System.out.println("Not Possible");
                 }
             }
@@ -168,24 +168,30 @@ public class MonotonePartition {
         dcel.vertices = (TreeSet<Vertex>) dcel1.vertices.clone();
 
         for (Edge edge : dcel2.edges) {
-            dcel.edges.add(edge);
+            dcel.addEdge(edge);
         }
         for (Vertex vertex : dcel2.vertices) {
             dcel.vertices.add(vertex);
         }
 
-        Edge edge1 = dcel1.edges.floor(diag);
-        Edge edge2 = dcel2.edges.floor(diag);
+        Edge edge1 = dcel1.getSameEdge(diag);
+        Edge edge2 = dcel2.getSameEdge(diag);
+
+        for (Edge edge : dcel2.edges) {
+            if (edge.pEdge == edge2)
+                edge.pEdge = edge1;
+            if (edge.nEdge == edge2)
+                edge.nEdge = edge2;
+        }
 
         Face of1 = null;
         Face of2 = null;
 
         if (dcel1.vertices.size() == 3) {
-            if(dcel1.faces.first().edge.lFace == dcel1.faces.first()) { // inner face
+            if (dcel1.faces.first().edge.lFace == dcel1.faces.first()) { // inner face
                 dcel.faces.add(dcel1.faces.first());
                 of1 = dcel1.faces.last();
-            }
-            else {
+            } else {
                 dcel.faces.add(dcel1.faces.last());
                 of1 = dcel1.faces.first();
             }
@@ -194,19 +200,17 @@ public class MonotonePartition {
                 int fnumV = face.getNumVertices();
                 if (fnumV != dcel1.vertices.size()) {
                     dcel.faces.add(face);
-                }
-                else {
-                   of1 = face;
+                } else {
+                    of1 = face;
                 }
             }
         }
 
         if (dcel2.vertices.size() == 3) {
-            if(dcel2.faces.first().edge.lFace == dcel2.faces.first()) { // inner face
+            if (dcel2.faces.first().edge.lFace == dcel2.faces.first()) { // inner face
                 dcel.faces.add(dcel2.faces.first());
                 of2 = dcel2.faces.last();
-            }
-            else {
+            } else {
                 dcel.faces.add(dcel2.faces.last());
                 of2 = dcel2.faces.first();
             }
@@ -215,14 +219,14 @@ public class MonotonePartition {
                 int fnumV = face.getNumVertices();
                 if (fnumV != dcel2.vertices.size()) {
                     dcel.faces.add(face);
-                }
-                else {
+                } else {
                     of2 = face;
                 }
             }
         }
 
         dcel.faces.add(of1);
+        of1.edge = edge1.nEdge;
 
         Edge cur = edge2;
         if (cur.lFace == of2) {
@@ -262,24 +266,15 @@ public class MonotonePartition {
             }
         }
 
-        if(e1last.rFace == of1) {
-            e1last.nEdge = e2first;
-        }
+        e1last.nEdge = e2first;
+        e2first.pEdge = edge1;
 
-        if(e2last.rFace == of2){
-            e2last.nEdge = e1first;
-        }
+        e2last.nEdge = e1first;
 
         edge1.nEdge = edge2.pEdge;
         edge1.rFace = edge2.lFace;
 
-        return dcel;
-    }
 
-    private boolean isEdgeContained(DCEL dcel, Edge edge) {
-        for (Edge cur : dcel.edges) {
-            if(cur.compareTo(edge) == 0) return  true;
-        }
-        return  false;
+        return dcel;
     }
 }
