@@ -11,14 +11,18 @@ public class PointsPanel extends JPanel {
     private static DCEL dcel;
     private ArrayList<DCEL> dcelArrayList;
     private ArrayList<Point> pointList;
-    private PolygonSolution polygonSolution;
-    private TrapezoidSolution trapezoidSolution;
     private ArrayList<Point> circularLineList;
     private ArrayList<Segment> trapLines;
-    private MonotonePartition monotonePartition;
     private ArrayList<Segment> partitionLines;
     private ArrayList<Edge> partitionDiagonals;
     private ArrayList<Segment> trigLines;
+    private DCEL mergedDCEL;
+
+    private PolygonSolution polygonSolution;
+    private TrapezoidSolution trapezoidSolution;
+    private MonotonePartition monotonePartition;
+    private DualitySolution dualitySolution;
+
 
     //-----------------------------------------------------------
     //  Constructor:
@@ -29,6 +33,8 @@ public class PointsPanel extends JPanel {
         polygonSolution = new PolygonSolution();
         trapezoidSolution = new TrapezoidSolution();
         monotonePartition = new MonotonePartition();
+        dualitySolution = new DualitySolution();
+
         //contains all points clicked
         pointList = new ArrayList<Point>();
 
@@ -53,27 +59,30 @@ public class PointsPanel extends JPanel {
     public void initPoints(int n) {
         pointList.clear();
 
-        int ll = 50;
-        int ul = 350;
-
-        for (int i = 0; i < n; i++) {
-            int x = ll + (int) (Math.random() * (ul - ll));
-            int y = ll + (int) (Math.random() * (ul - ll));
-            y = -y;
-            pointList.add(new Point(x, y));
-        }
-        System.out.println(pointList);
+//        int ll = 50;
+//        int ul = 350;
+//
+//        for (int i = 0; i < n; i++) {
+//            int x = ll + (int) (Math.random() * (ul - ll));
+//            int y = ll + (int) (Math.random() * (ul - ll));
+//            y = -y;
+//            pointList.add(new Point(x, y));
+//        }
+//        System.out.println(pointList);
 
 //        DCEL not partitioned
 //        [java.awt.Point[x=160,y=-89], java.awt.Point[x=98,y=-182], java.awt.Point[x=298,y=-340], java.awt.Point[x=120,y=-291], java.awt.Point[x=130,y=-272], java.awt.Point[x=148,y=-163]]
+
 //        Non Simple Polygon
 //       [java.awt.Point[x=165,y=-324], java.awt.Point[x=74,y=-236], java.awt.Point[x=119,y=-344], java.awt.Point[x=142,y=-236], java.awt.Point[x=116,y=-330], java.awt.Point[x=240,y=-327]]
 
-//        pointList.add(new Point(248, -282));
-//        pointList.add(new Point(259, -145));
-//        pointList.add(new Point(245, -293));
-//        pointList.add(new Point(135, -59));
-//        pointList.add(new Point(91, -317));
+
+        pointList.add(new Point(269, -277));
+        pointList.add(new Point(252, -253));
+        pointList.add(new Point(315, -266));
+        pointList.add(new Point(313, -204));
+        pointList.add(new Point(296, -115));
+        pointList.add(new Point(224, -267));
 
 //        pointList.add(new Point(200, -50));
 //        pointList.add(new Point(300, -125));
@@ -129,7 +138,14 @@ public class PointsPanel extends JPanel {
             Triangulation trisol = new Triangulation(dcel, trigLines);
             trisol.generate();
         }
-        DCEL dcel = monotonePartition.mergePartitions(partitionDiagonals, dcelArrayList);
+        mergedDCEL = monotonePartition.mergePartitions(partitionDiagonals, dcelArrayList);
+        repaint();
+    }
+
+    public void dualGraph() {
+        dualitySolution.dcel = mergedDCEL;
+        dualitySolution.generate();
+
         repaint();
     }
 
@@ -171,6 +187,19 @@ public class PointsPanel extends JPanel {
                 page.drawLine(trigLines.get(ii).a.x, -1 * trigLines.get(ii).a.y, trigLines.get(ii).b.x, -1 * trigLines.get(ii).b.y);
         }
 
+        if (dualitySolution.dualEdges != null && dualitySolution.dualEdges.size() > 0) {
+            page.setColor(Color.YELLOW);
+            if (dualitySolution.dualEdges != null && dualitySolution.dualEdges.size() > 0) {
+                for (int ii = 0; ii < dualitySolution.dualEdges.size(); ii++)
+                    page.drawLine(dualitySolution.dualEdges.get(ii).a.x, -1 * dualitySolution.dualEdges.get(ii).a.y,
+                            dualitySolution.dualEdges.get(ii).b.x, -1 * dualitySolution.dualEdges.get(ii).b.y);
+            }
+            page.setColor(Color.RED);
+            for (Point spot : dualitySolution.dualVertices) {
+                page.fillOval(spot.x - 3, -1 * spot.y - 3, 7, 7);
+            }
+        }
+
         //display the points count
         page.drawString("Count: " + pointList.size(), 5, 20);
     }
@@ -183,6 +212,7 @@ public class PointsPanel extends JPanel {
         trapLines.clear();
         partitionLines.clear();
         trigLines.clear();
+        dualitySolution = new DualitySolution();
         //clear the canvas
         repaint();
     }

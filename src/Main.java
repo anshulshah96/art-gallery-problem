@@ -68,6 +68,7 @@ public class Main extends JFrame {
         Action trapezoid = new TrapezoidAction();
         Action partition = new PartitionAction();
         Action triangulation = new TriangulationAction();
+        Action dual = new DualGraphAction();
 
         // Populate the menus using Action objects
         filemenu.add(clear);
@@ -84,6 +85,7 @@ public class Main extends JFrame {
         toolbar.add(trapezoid);
         toolbar.add(partition);
         toolbar.add(triangulation);
+        toolbar.add(dual);
         contentPane.add(toolbar, BorderLayout.NORTH);
     }
 
@@ -156,6 +158,17 @@ public class Main extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             pane.triangulatePartitions();
+        }
+    }
+
+    class DualGraphAction extends AbstractAction {
+        public DualGraphAction() {
+            super("DualAction");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            pane.dualGraph();
         }
     }
 

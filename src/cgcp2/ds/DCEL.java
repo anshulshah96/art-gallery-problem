@@ -326,5 +326,36 @@ class Face implements Comparable<Face> {
         }
         return ans;
     }
+
+    public java.awt.Point getMidPoint() {
+        double xsum = 0, ysum = 0;
+        int nVert = 0;
+        Edge cur = edge;
+        if (cur.lFace == this) {
+            xsum += cur.origin.coord.x;
+            ysum += cur.origin.coord.y;
+            cur = cur.pEdge;
+        } else {
+            xsum += cur.dest.coord.x;
+            ysum += cur.dest.coord.y;
+            cur = cur.nEdge;
+        }
+        nVert++;
+
+        while (cur != edge) {
+            if (cur.lFace == this) {
+                xsum += cur.origin.coord.x;
+                ysum += cur.origin.coord.y;
+                cur = cur.pEdge;
+            } else {
+                xsum += cur.dest.coord.x;
+                ysum += cur.dest.coord.y;
+                cur = cur.nEdge;
+            }
+            nVert++;
+        }
+
+        return new java.awt.Point((int)xsum/nVert, (int)ysum/nVert);
+    }
 }
 
