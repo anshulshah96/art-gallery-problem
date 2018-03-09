@@ -57,18 +57,18 @@ public class PointsPanel extends JPanel {
     }
 
     public void initPoints(int n) {
-        pointList.clear();
+        clear();
 //
-//        int ll = 50;
-//        int ul = 350;
-//
-//        for (int i = 0; i < n; i++) {
-//            int x = ll + (int) (Math.random() * (ul - ll));
-//            int y = ll + (int) (Math.random() * (ul - ll));
-//            y = -y;
-//            pointList.add(new Point(x, y));
-//        }
-//        System.out.println(pointList);
+        int ll = 50;
+        int ul = 350;
+
+        for (int i = 0; i < n; i++) {
+            int x = ll + (int) (Math.random() * (ul - ll));
+            int y = ll + (int) (Math.random() * (ul - ll));
+            y = -y;
+            pointList.add(new Point(x, y));
+        }
+        System.out.println(pointList);
 
 //        DCEL not partitioned
 //        [java.awt.Point[x=160,y=-89], java.awt.Point[x=98,y=-182], java.awt.Point[x=298,y=-340], java.awt.Point[x=120,y=-291], java.awt.Point[x=130,y=-272], java.awt.Point[x=148,y=-163]]
@@ -76,15 +76,12 @@ public class PointsPanel extends JPanel {
 //        Non Simple Polygon
 //       [java.awt.Point[x=165,y=-324], java.awt.Point[x=74,y=-236], java.awt.Point[x=119,y=-344], java.awt.Point[x=142,y=-236], java.awt.Point[x=116,y=-330], java.awt.Point[x=240,y=-327]]
 
-//       [java.awt.Point[x=163,y=-222], java.awt.Point[x=127,y=-191], java.awt.Point[x=176,y=-307], java.awt.Point[x=151,y=-282], java.awt.Point[x=173,y=-137], java.awt.Point[x=215,y=-314]]
-
-
-        pointList.add(new Point(163, -222));
-        pointList.add(new Point(127, -191));
-        pointList.add(new Point(176, -307));
-        pointList.add(new Point(151, -282));
-        pointList.add(new Point(173, -137));
-        pointList.add(new Point(215, -314));
+//        pointList.add(new Point(193, -318));
+//        pointList.add(new Point(117, -326));
+//        pointList.add(new Point(262, -63));
+//        pointList.add(new Point(289, -339));
+//        pointList.add(new Point(320, -310));
+//        pointList.add(new Point(347, -260));
 
 //        pointList.add(new Point(200, -50));
 //        pointList.add(new Point(300, -125));

@@ -129,6 +129,11 @@ class Vertex implements Comparable<Vertex> {
         this.coord = new Point(point.x, point.y);
     }
 
+    public Vertex(int x, int y) {
+        this.coord = new Point(x, y);
+
+    }
+
     public Point getCoord() {
         return coord;
     }
@@ -352,7 +357,7 @@ class Face implements Comparable<Face> {
         return ans;
     }
 
-    public java.awt.Point getMidPoint() {
+    public Vertex getMidPoint() {
         double xsum = 0, ysum = 0;
         int nVert = 0;
         Edge cur = edge;
@@ -380,7 +385,7 @@ class Face implements Comparable<Face> {
             nVert++;
         }
 
-        return new java.awt.Point((int) xsum / nVert, (int) ysum / nVert);
+        return new Vertex((int) xsum / nVert, (int) ysum / nVert);
     }
 }
 
