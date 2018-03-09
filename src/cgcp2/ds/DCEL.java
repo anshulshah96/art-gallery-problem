@@ -33,8 +33,8 @@ public class DCEL {
 
     public boolean isEdge(Vertex a, Vertex b) {
         Edge t = new Edge(a, b);
-        for(Edge e : this.edges) {
-            if(e.compareTo(t) == 0) {
+        for (Edge e : this.edges) {
+            if (e.compareTo(t) == 0) {
                 return true;
             }
         }
@@ -48,7 +48,6 @@ public class DCEL {
             Face nFace = new Face(diag);
             nFace.edge = diag;
             this.faces.add(nFace);
-            Vertex origin = diag.origin;
 
             if (!isDiag.contains(diag.origin)) {
             } else if (!isDiag.contains(diag.dest)) {
@@ -147,7 +146,7 @@ class Vertex implements Comparable<Vertex> {
         java.awt.Point v2 = this.toPoint();
         java.awt.Point v3 = incidentEdge.dest.toPoint();
 
-        double ans = (v1.x*v2.y + v2.x*v3.y + v3.x*v1.y) - (v1.y*v2.x + v2.y*v3.x + v3.y*v1.x);
+        double ans = (v1.x * v2.y + v2.x * v3.y + v3.x * v1.y) - (v1.y * v2.x + v2.y * v3.x + v3.y * v1.x);
         return ans < 0;
     }
 }
@@ -237,8 +236,8 @@ class Edge implements Comparable<Edge> {
 
     @Override
     public int compareTo(Edge o) {
-        if (this.dest == o.dest && this.origin == o.origin) return 0;
-        if (this.origin == o.dest && this.dest == o.origin) return 0;
+        if (this.dest.compareTo(o.dest) == 0 && this.origin.compareTo(o.origin) == 0) return 0;
+        if (this.origin.compareTo(o.dest) == 0 && this.dest.compareTo(o.origin) == 0) return 0;
         if (o.origin == this.dest) {
             int mul = 1;
             if (o.dest.coord.y > o.origin.coord.y && this.origin.coord.y > o.origin.coord.y)
@@ -305,6 +304,27 @@ class Face implements Comparable<Face> {
     @Override
     public int compareTo(Face o) {
         return 1;
+    }
+
+    public int getNumVertices() {
+        int ans = 0;
+        Edge cur = edge;
+        if (cur.lFace == this) {
+            cur = cur.pEdge;
+        } else {
+            cur = cur.nEdge;
+        }
+        ans++;
+
+        while (cur != edge) {
+            if (cur.lFace == this) {
+                cur = cur.pEdge;
+            } else {
+                cur = cur.nEdge;
+            }
+            ans++;
+        }
+        return ans;
     }
 }
 

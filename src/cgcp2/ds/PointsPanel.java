@@ -64,6 +64,8 @@ public class PointsPanel extends JPanel {
         }
         System.out.println(pointList);
 
+//        DCEL not partitioned
+//        [java.awt.Point[x=160,y=-89], java.awt.Point[x=98,y=-182], java.awt.Point[x=298,y=-340], java.awt.Point[x=120,y=-291], java.awt.Point[x=130,y=-272], java.awt.Point[x=148,y=-163]]
 //        Non Simple Polygon
 //       [java.awt.Point[x=165,y=-324], java.awt.Point[x=74,y=-236], java.awt.Point[x=119,y=-344], java.awt.Point[x=142,y=-236], java.awt.Point[x=116,y=-330], java.awt.Point[x=240,y=-327]]
 
@@ -127,6 +129,7 @@ public class PointsPanel extends JPanel {
             Triangulation trisol = new Triangulation(dcel, trigLines);
             trisol.generate();
         }
+        DCEL dcel = monotonePartition.mergePartitions(partitionDiagonals, dcelArrayList);
         repaint();
     }
 
