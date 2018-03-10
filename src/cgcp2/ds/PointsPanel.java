@@ -194,8 +194,8 @@ public class PointsPanel extends JPanel {
                             dualitySolution.dualEdges.get(ii).b.x, -1 * dualitySolution.dualEdges.get(ii).b.y);
             }
             page.setColor(Color.RED);
-            for (Point spot : dualitySolution.dualVertices) {
-                page.fillOval(spot.x - 3, -1 * spot.y - 3, 7, 7);
+            for (Vertex spot : dualitySolution.dualVertices) {
+                page.fillOval(spot.toPoint().x - 3, -1 * spot.toPoint().y - 3, 7, 7);
             }
         }
 
