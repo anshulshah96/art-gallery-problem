@@ -1,12 +1,13 @@
-# art-gallery-problem
-Coding Project 2 for Computational Geometry Course (CSN-523)
-==================================================================
+# Art Gallery Problem
+
+#### Coding Project 2 for Computational Geometry Course (CSN-523)
 
 Objective : To know implementation of different Computational Geometry algorithms for solving the Art-Gallery Problem. 
 
 Usage 
 =======
 
+ - [Jar Builds](https://github.com/anshulshah96/art-gallery-problem/releases/)
  - Enter the number of random vertices in the top toolbar.
  - Progress sequentially in the following order: 
    Random Points -> Generate Polygon -> Trapezoidalize -> Monotone Partition -> Triangulation -> Dual Graph -> Three Coloring 

@@ -31,7 +31,7 @@ public class Main extends JFrame {
      * This constructor creates the GUI for this application.
      */
     public Main() {
-        super("Anshul Shah & Suraj Gupta CP-2");
+        super("Art Gallery Problem Solver");
 
         // All content of a JFrame (except for the menubar)
         // goes in the Frame's internal "content pane",
