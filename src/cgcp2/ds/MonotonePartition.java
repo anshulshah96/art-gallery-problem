@@ -61,7 +61,7 @@ public class MonotonePartition {
 
                 SList.add(v.incidentEdge);
                 helper.put(v.incidentEdge, v);
-            } else {
+            } else if (v.type == vType.regR){
                 Edge dummyEdge = new Edge(v, v);
                 Edge prev = SList.floor(dummyEdge);
                 if (helper.get(prev).type == vType.merge) {
@@ -69,7 +69,30 @@ public class MonotonePartition {
                 }
                 helper.put(prev, v);
             }
-
+            else {
+                Edge b1 = v.incidentEdge;
+                Edge b2 = v.incidentEdge.pEdge;
+                Edge eprev = null;
+                if(b1.dest.coord.y == b1.origin.coord.y) {
+                    eprev = b2;
+                    if(SList.contains(eprev)) {
+                        if (helper.get(eprev).type == vType.merge) {
+                            addEdge(v, helper.get(eprev));
+                        }
+                        helper.remove(eprev);
+                        SList.remove(eprev);
+                    }
+                }
+                else {
+                    eprev = b1;
+                    if(SList.contains(eprev))
+                        System.out.println("Not possible");
+                    else {
+                        SList.add(eprev);
+                        helper.put(eprev, v);
+                    }
+                }
+            }
         }
         dcel.addEdges(partitionDiagonals);
     }
@@ -177,12 +200,6 @@ public class MonotonePartition {
         Edge edge1 = dcel1.getSameEdge(diag);
         Edge edge2 = dcel2.getSameEdge(diag);
 
-        for (Edge edge : dcel2.edges) {
-            if (edge.pEdge == edge2)
-                edge.pEdge = edge1;
-            if (edge.nEdge == edge2)
-                edge.nEdge = edge2;
-        }
 
         Face of1 = null;
         Face of2 = null;
@@ -274,7 +291,12 @@ public class MonotonePartition {
         edge1.nEdge = edge2.pEdge;
         edge1.rFace = edge2.lFace;
 
-
+        for (Edge edge : dcel2.edges) {
+            if (edge.pEdge == edge2)
+                edge.pEdge = edge1;
+            if (edge.nEdge == edge2)
+                edge.nEdge = edge2;
+        }
         return dcel;
     }
 }

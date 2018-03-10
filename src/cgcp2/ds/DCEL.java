@@ -48,6 +48,12 @@ public class DCEL {
         return false;
     }
 
+    public Edge isEdgeReturn(Edge edge) {
+        for (Edge e : this.edges) {
+            if (e.compareTo(edge) == 0) return e;
+        }
+        return null;
+    }
     public boolean addEdge(Edge edge) {
         if (isEdge(edge)) {
             return false;
@@ -355,6 +361,30 @@ class Face implements Comparable<Face> {
             ans++;
         }
         return ans;
+    }
+
+    public ArrayList<Vertex> getVertices() {
+        ArrayList<Vertex> vList = new ArrayList<>();
+        Edge cur = edge;
+        if (cur.lFace == this) {
+            vList.add(cur.origin);
+            cur = cur.pEdge;
+        } else {
+            vList.add(cur.dest);
+            cur = cur.nEdge;
+        }
+
+        while (cur != edge) {
+            if (cur.lFace == this) {
+                vList.add(cur.origin);
+                cur = cur.pEdge;
+            } else {
+                vList.add(cur.dest);
+                cur = cur.nEdge;
+            }
+        }
+
+        return vList;
     }
 
     public Vertex getMidPoint() {

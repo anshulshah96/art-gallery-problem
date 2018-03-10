@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 import java.awt.*;
 import java.awt.Point;
+import java.util.HashMap;
 
 public class PointsPanel extends JPanel {
     private static DCEL dcel;
@@ -17,7 +18,8 @@ public class PointsPanel extends JPanel {
     private ArrayList<Edge> partitionDiagonals;
     private ArrayList<Segment> trigLines;
     private DCEL mergedDCEL;
-
+    private HashMap<Point, Integer> colour;
+    Boolean finale;
     private PolygonSolution polygonSolution;
     private TrapezoidSolution trapezoidSolution;
     private MonotonePartition monotonePartition;
@@ -58,35 +60,38 @@ public class PointsPanel extends JPanel {
 
     public void initPoints(int n) {
         clear();
-//
-        int ll = 50;
-        int ul = 350;
 
-        for (int i = 0; i < n; i++) {
-            int x = ll + (int) (Math.random() * (ul - ll));
-            int y = ll + (int) (Math.random() * (ul - ll));
-            y = -y;
-            pointList.add(new Point(x, y));
-        }
-        System.out.println(pointList);
+//        int ll = 50;
+//        int ul = 350;
+//
+//        for (int i = 0; i < n; i++) {
+//            int x = ll + (int) (Math.random() * (ul - ll));
+//            int y = ll + (int) (Math.random() * (ul - ll));
+//            y = -y;
+//            pointList.add(new Point(x, y));
+//        }
+//        System.out.println(pointList);
 
 //        DCEL not partitioned
 //        [java.awt.Point[x=160,y=-89], java.awt.Point[x=98,y=-182], java.awt.Point[x=298,y=-340], java.awt.Point[x=120,y=-291], java.awt.Point[x=130,y=-272], java.awt.Point[x=148,y=-163]]
 
 //        Non Simple Polygon
 //       [java.awt.Point[x=165,y=-324], java.awt.Point[x=74,y=-236], java.awt.Point[x=119,y=-344], java.awt.Point[x=142,y=-236], java.awt.Point[x=116,y=-330], java.awt.Point[x=240,y=-327]]
+//          Merging DCEL
+//        [java.awt.Point[x=102,y=-160], java.awt.Point[x=55,y=-124], java.awt.Point[x=273,y=-286], java.awt.Point[x=228,y=-321], java.awt.Point[x=73,y=-176], java.awt.Point[x=193,y=-182]]
+//        Triangulation issues
+//        [java.awt.Point[x=63,y=-247], java.awt.Point[x=165,y=-274], java.awt.Point[x=100,y=-197], java.awt.Point[x=132,y=-212], java.awt.Point[x=187,y=-245], java.awt.Point[x=312,y=-283], java.awt.Point[x=344,y=-98], java.awt.Point[x=237,y=-178], java.awt.Point[x=107,y=-137], java.awt.Point[x=243,y=-259]]
+        pointList.add(new Point(63, -247));
+        pointList.add(new Point(165, -274));
+        pointList.add(new Point(100, -197));
+        pointList.add(new Point(132, -212));
+        pointList.add(new Point(187, -245));
+        pointList.add(new Point(312, -283));
 
-//        pointList.add(new Point(193, -318));
-//        pointList.add(new Point(117, -326));
-//        pointList.add(new Point(262, -63));
-//        pointList.add(new Point(289, -339));
-//        pointList.add(new Point(320, -310));
-//        pointList.add(new Point(347, -260));
-
-//        pointList.add(new Point(200, -50));
-//        pointList.add(new Point(300, -125));
-//        pointList.add(new Point(100, -175));
-//        pointList.add(new Point(200, -250));
+        pointList.add(new Point(344, -98));
+        pointList.add(new Point(237, -178));
+        pointList.add(new Point(107, -137));
+        pointList.add(new Point(243, -259));
 
 
         repaint();
@@ -137,14 +142,18 @@ public class PointsPanel extends JPanel {
             Triangulation trisol = new Triangulation(dcel, trigLines);
             trisol.generate();
         }
-        mergedDCEL = monotonePartition.mergePartitions(partitionDiagonals, dcelArrayList);
+//        mergedDCEL = monotonePartition.mergePartitions(partitionDiagonals, dcelArrayList);
         repaint();
     }
 
     public void dualGraph() {
-        dualitySolution.dcel = mergedDCEL;
+//        dualitySolution.dcel = mergedDCEL;
+        dualitySolution.dcelArrayList = dcelArrayList;
+        dualitySolution.partitionDiagonals = partitionDiagonals;
         dualitySolution.generate();
-
+        dualitySolution.solve();
+        colour = dualitySolution.colour;
+        finale = true;
         repaint();
     }
 
@@ -156,7 +165,19 @@ public class PointsPanel extends JPanel {
 
         //showing the spot
         page.setColor(Color.green);
-        for (Point spot : pointList) page.fillOval(spot.x - 3, -1 * spot.y - 3, 7, 7);
+        for (Point spot : pointList)
+        {
+            if (finale)
+            {
+                if(colour.get(spot) == 1)
+                    page.setColor(Color.RED);
+                else if(colour.get(spot) == 2)
+                    page.setColor(Color.BLUE);
+                else
+                    page.setColor(Color.GREEN);
+            }
+            page.fillOval(spot.x - 3, -1 * spot.y - 3, 7, 7);
+        }
 
         //rendering the convex hull demonstration
         page.setColor(Color.orange);
@@ -213,6 +234,7 @@ public class PointsPanel extends JPanel {
         trigLines.clear();
         dualitySolution = new DualitySolution();
         //clear the canvas
+        finale = false;
         repaint();
     }
 }
