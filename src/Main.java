@@ -6,9 +6,12 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class Main extends JFrame {
     PointsPanel pane;
+    JSpinner spinner;
 
     public static void main(String[] args) {
 
@@ -48,11 +51,13 @@ public class Main extends JFrame {
         // Create a menubar and add it to this window.
         JMenuBar menubar = new JMenuBar();  // Create a menubar
         this.setJMenuBar(menubar);  // Display it in the JFrame
+        menubar.add(new JButton("Vertices:"));
 
-        // Create menus and add to the menubar
-        JMenu filemenu = new JMenu("File");
-        menubar.add(filemenu);
-		
+        spinner = new JSpinner();
+        spinner.setValue(10);
+        spinner.addChangeListener(e -> System.out.println(e));
+        menubar.add(spinner);
+
       /* Create some Action objects for use in the menus 
          and toolbars.
          An Action combines a menu title and/or icon with 
@@ -71,16 +76,10 @@ public class Main extends JFrame {
         Action dual = new DualGraphAction();
         Action threecolor = new ThreeColorAction();
 
-        // Populate the menus using Action objects
-        filemenu.add(clear);
-        filemenu.add(quit);
-
         // Now create a toolbar, add actions to it, and add
         // it to the top of the frame (where it appears
         // underneath the menubar)
         JToolBar toolbar = new JToolBar();
-        toolbar.add(clear);
-        toolbar.add(quit);
         toolbar.add(random);
         toolbar.add(polygon);
         toolbar.add(trapezoid);
@@ -88,32 +87,20 @@ public class Main extends JFrame {
         toolbar.add(triangulation);
         toolbar.add(dual);
         toolbar.add(threecolor);
+        toolbar.add(clear);
+        toolbar.add(quit);
         contentPane.add(toolbar, BorderLayout.NORTH);
-    }
-
-    /* This inner class defines the "clear" action */
-    class ClearAction extends AbstractAction {
-
-        public ClearAction() {
-            super("Clear");  // Specify the name of the action
-        }
-
-        public void actionPerformed(ActionEvent e) {
-
-            pane.clear();
-
-        }
     }
 
     class RandomPoints extends AbstractAction {
 
         public RandomPoints() {
-            super("Random");
+            super("Random Points");
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            int n = 20;
+            int n = Integer.parseInt(spinner.getValue().toString());
             pane.clear();
             pane.initPoints(n);
         }
@@ -121,7 +108,7 @@ public class Main extends JFrame {
 
     class PolygonAction extends AbstractAction {
         public PolygonAction() {
-            super("Polygon");
+            super("Generate Polygon");
         }
 
         @Override
@@ -130,9 +117,9 @@ public class Main extends JFrame {
         }
     }
 
-    class TrapezoidAction extends  AbstractAction {
+    class TrapezoidAction extends AbstractAction {
         public TrapezoidAction() {
-            super("Trapezoid");
+            super("Trapezoidalize");
         }
 
         @Override
@@ -141,9 +128,9 @@ public class Main extends JFrame {
         }
     }
 
-    class PartitionAction extends  AbstractAction {
+    class PartitionAction extends AbstractAction {
         public PartitionAction() {
-            super("Partition");
+            super("Monotone Partition");
         }
 
         @Override
@@ -154,7 +141,7 @@ public class Main extends JFrame {
 
     class TriangulationAction extends AbstractAction {
         public TriangulationAction() {
-            super("TriangulationAction");
+            super("Triangulation");
         }
 
         @Override
@@ -165,7 +152,7 @@ public class Main extends JFrame {
 
     class DualGraphAction extends AbstractAction {
         public DualGraphAction() {
-            super("DualAction");
+            super("Dual Graph");
         }
 
         @Override
@@ -176,7 +163,7 @@ public class Main extends JFrame {
 
     class ThreeColorAction extends AbstractAction {
         public ThreeColorAction() {
-            super("ThreeColor");
+            super("Three Coloring");
         }
 
         @Override
@@ -196,4 +183,17 @@ public class Main extends JFrame {
         }
     }
 
+    /* This inner class defines the "clear" action */
+    class ClearAction extends AbstractAction {
+
+        public ClearAction() {
+            super("Clear");  // Specify the name of the action
+        }
+
+        public void actionPerformed(ActionEvent e) {
+
+            pane.clear();
+
+        }
+    }
 }

@@ -37,13 +37,10 @@ public class PointsPanel extends JPanel {
         monotonePartition = new MonotonePartition();
         dualitySolution = new DualitySolution();
 
-        //contains all points clicked
         pointList = new ArrayList<Point>();
 
-        //contains all convex hulls waypoints
         circularLineList = new ArrayList<Point>();
 
-        //contains all closest segments
         trapLines = new ArrayList<Segment>();
 
         partitionLines = new ArrayList<Segment>();
@@ -61,7 +58,7 @@ public class PointsPanel extends JPanel {
     public void initPoints(int n) {
         clear();
 
-        int ll = 20;
+        int ll = 50;
         int ul = 250;
 
         for (int i = 0; i < n; i++) {
@@ -153,13 +150,14 @@ public class PointsPanel extends JPanel {
         repaint();
     }
 
-    //------------------------------------------------------------
+    //-----------------------------------------------------------
     //  Draws all of the points stored in the list.
     //-----------------------------------------------------------
     public void paintComponent(Graphics page) {
         super.paintComponent(page);
 
-        //showing the spot
+        //Showing the Points
+        page.setFont(new Font("TimesRoman", Font.PLAIN, 20));
         page.setColor(Color.green);
         for (Point spot : pointList) {
             if (finale) {
@@ -170,25 +168,27 @@ public class PointsPanel extends JPanel {
                 else
                     page.setColor(Color.GREEN);
                 if (colour.get(spot) == dualitySolution.minc) {
-                    page.fillOval(spot.x - 8, -1 * spot.y - 8, 17, 17);
+                    page.fillOval(spot.x - 8, -1 * spot.y - 9, 19, 19);
+                    page.setColor(Color.WHITE);
+                    page.fillOval(spot.x - 3, -1 * spot.y - 3, 7, 7);
                 } else {
                     page.fillOval(spot.x - 3, -1 * spot.y - 3, 7, 7);
                 }
+                page.setColor(Color.GREEN);
+                page.drawString("Vertex Guards: " + dualitySolution.ct[dualitySolution.minc], 5, 40);
             } else
                 page.fillOval(spot.x - 3, -1 * spot.y - 3, 7, 7);
         }
 
-        //rendering the convex hull demonstration
+        //rendering the polygon constructed
         page.setColor(Color.orange);
         if (circularLineList != null && circularLineList.size() > 1) {
             for (int ii = 0; ii < circularLineList.size() - 1; ii++) {
-                Point p = circularLineList.get(ii);
-                Point q = circularLineList.get(ii + 1);
                 page.drawLine(circularLineList.get(ii).x, -1 * circularLineList.get(ii).y, circularLineList.get(ii + 1).x, -1 * circularLineList.get(ii + 1).y);
             }
             page.drawLine(circularLineList.get(circularLineList.size() - 1).x, -1 * circularLineList.get(circularLineList.size() - 1).y, circularLineList.get(0).x, -1 * circularLineList.get(0).y);
         }
-        //rendering the closest segments
+        //rendering the Trapezoidalization segments
         page.setColor(Color.white);
         if (trapLines != null && trapLines.size() > 0) {
             for (int ii = 0; ii < trapLines.size(); ii++)
@@ -222,8 +222,9 @@ public class PointsPanel extends JPanel {
             }
         }
 
+        page.setColor(Color.GREEN);
         //display the points count
-        page.drawString("Count: " + pointList.size(), 5, 20);
+        page.drawString("Vertices: " + pointList.size(), 5, 20);
     }
 
     //this method clears the canvas
