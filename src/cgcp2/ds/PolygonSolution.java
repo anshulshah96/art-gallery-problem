@@ -1,3 +1,7 @@
+// GroupID-11 (14114013_14114065) - Anshul Shah & Suraj Gupta
+// Date: March 7, 2018
+// PolygonSolution.java - Algorithm for Generating Polygon from a set of points
+
 package cgcp2.ds;
 
 import java.awt.Point;

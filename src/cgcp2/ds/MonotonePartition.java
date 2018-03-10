@@ -1,3 +1,7 @@
+// GroupID-11 (14114013_14114065) - Anshul Shah & Suraj Gupta
+// Date: March 7, 2018
+// MonotonePartition.java - Algorithm for Generating Monotone Partitions from a Polygon
+
 package cgcp2.ds;
 
 import java.awt.Point;

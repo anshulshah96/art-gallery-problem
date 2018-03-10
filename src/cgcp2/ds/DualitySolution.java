@@ -1,3 +1,7 @@
+// GroupID-11 (14114013_14114065) - Anshul Shah & Suraj Gupta
+// Date: March 7, 2018
+// DualitySolution.java - Algorithm for Generating a Dual Graph from a Polygon
+
 package cgcp2.ds;
 
 import java.awt.Point;
@@ -5,7 +9,6 @@ import java.util.*;
 
 
 public class DualitySolution {
-    //    public DCEL dcel;
     public ArrayList<DCEL> dcelArrayList;
     public ArrayList<Edge> partitionDiagonals;
     public ArrayList<Segment> dualEdges;
@@ -23,30 +26,6 @@ public class DualitySolution {
         adjList = new HashMap<>();
         dualVertices = new ArrayList<>();
         adjCount = new TreeMap<>();
-
-//        for(Face face : dcel.faces) {
-//            if(face.getNumVertices() == dcel.vertices.size()) {
-//                of = face;
-//                continue;
-//            }
-//            dualVertices.add(face.getMidPoint());
-//            adjList.put(face, new ArrayList<>());
-//            adjCount.put(face, 0);
-//        }
-//
-//        for(Edge edge : dcel.edges) {
-//            if (edge.rFace != of) {
-//                Vertex v1 = edge.rFace.getMidPoint();
-//                Vertex v2 = edge.lFace.getMidPoint();
-//                dualEdges.add(new Segment(v1.toPoint(), v2.toPoint()));
-//
-//                adjList.get(edge.rFace).add(edge.lFace);
-//                adjList.get(edge.lFace).add(edge.rFace);
-//
-//                adjCount.put(edge.rFace, adjCount.get(edge.rFace)+1);
-//                adjCount.put(edge.lFace, adjCount.get(edge.lFace)+1);
-//            }
-//        }
 
         for (DCEL dcel : dcelArrayList) {
             for (Face face : dcel.faces) {

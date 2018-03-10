@@ -1,8 +1,11 @@
+// GroupID-11 (14114013_14114065) - Anshul Shah & Suraj Gupta
+// Date: March 7, 2018
+// Triangulation.java - Algorithm for Generating Triangulation of Monotone Polygon
+
 package cgcp2.ds;
 
 import java.awt.Point;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Triangulation {
 

@@ -1,3 +1,7 @@
+// GroupID-11 (14114013_14114065) - Anshul Shah & Suraj Gupta
+// Date: March 7, 2018
+// Trapezoidalization.java - Algorithm for Generating Trapezoidalization of a Polygon
+
 package cgcp2.ds;
 
 import java.awt.Point;
@@ -5,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
-public class TrapezoidSolution {
+public class Trapezoidalization {
 
     public DCEL dcel;
     public ArrayList<Segment> trapezoidalLines;

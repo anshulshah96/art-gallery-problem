@@ -1,3 +1,7 @@
+// GroupID-11 (14114013_14114065) - Anshul Shah & Suraj Gupta
+// Date: March 7, 2018
+// Point.java - Data Structure for a Point used while rendering
+
 package cgcp2.ds;
 
 public class Point implements Comparable<Point> {
@@ -10,12 +14,6 @@ public class Point implements Comparable<Point> {
         this.hashCode = hash++;
         this.x = x;
         this.y = y;
-    }
-
-    Point(java.awt.Point point) {
-        this.hashCode = hash++;
-        this.x = point.x;
-        this.y = point.y;
     }
 
     @Override
@@ -37,10 +35,6 @@ public class Point implements Comparable<Point> {
 
     public double getY() {
         return y;
-    }
-
-    public void setX(double x) {
-        this.x = x;
     }
 
     public void setY(double y) {

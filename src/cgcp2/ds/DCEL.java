@@ -1,3 +1,8 @@
+// GroupID-11 (14114013_14114065) - Anshul Shah & Suraj Gupta
+// Date: March 7, 2018
+// DCEL.java - Data Structures used in the Program
+
+
 package cgcp2.ds;
 
 import java.util.ArrayList;
@@ -14,21 +19,9 @@ public class DCEL {
     public TreeSet<Face> faces;
 
     public DCEL() {
-        vertices = new TreeSet<Vertex>();
-        edges = new TreeSet<Edge>();
-        faces = new TreeSet<Face>();
-    }
-
-    public TreeSet<Vertex> getVertices() {
-        return vertices;
-    }
-
-    public TreeSet<Edge> getEdges() {
-        return edges;
-    }
-
-    public TreeSet<Face> getFaces() {
-        return faces;
+        vertices = new TreeSet<>();
+        edges = new TreeSet<>();
+        faces = new TreeSet<>();
     }
 
     public boolean isEdge(Vertex a, Vertex b) {
@@ -145,18 +138,6 @@ class Vertex implements Comparable<Vertex> {
         return coord;
     }
 
-    public void setCoord(Point coord) {
-        this.coord = coord;
-    }
-
-    public Edge getIncidentEdge() {
-        return incidentEdge;
-    }
-
-    public void setIncidentEdge(Edge incidentEdge) {
-        this.incidentEdge = incidentEdge;
-    }
-
     @Override
     public int compareTo(Vertex arg0) {
         return this.coord.compareTo(arg0.getCoord());
@@ -190,62 +171,9 @@ class Edge implements Comparable<Edge> {
     public Face lFace, rFace;
     public double slope;
 
-    public Vertex getOrigin() {
-        return origin;
-    }
-
-    public void setOrigin(Vertex origin) {
-        this.origin = origin;
-    }
-
-    public Vertex getDest() {
-        return dest;
-    }
-
-    public void setDest(Vertex dest) {
-        this.dest = dest;
-    }
-
-    public Edge getnEdge() {
-        return nEdge;
-    }
-
-    public void setnEdge(Edge nEdge) {
-        this.nEdge = nEdge;
-    }
-
-    public Edge getpEdge() {
-        return pEdge;
-    }
-
-    public void setpEdge(Edge pEdge) {
-        this.pEdge = pEdge;
-    }
-
-    public Face getlFace() {
-        return lFace;
-    }
-
-    public void setlFace(Face lFace) {
-        this.lFace = lFace;
-    }
-
-    public Face getrFace() {
-        return rFace;
-    }
-
-    public void setrFace(Face rFace) {
-        this.rFace = rFace;
-    }
-
     public Edge(Vertex origin, Vertex dest) {
         this.origin = origin;
         this.dest = dest;
-    }
-
-    public Edge(Segment segment) {
-        this.origin = new Vertex(segment.a);
-        this.dest = new Vertex(segment.b);
     }
 
     public Edge(Vertex origin, Vertex dest, Edge nEdge, Edge pEdge, Face lFace, Face rFace) {
@@ -318,7 +246,7 @@ class Edge implements Comparable<Edge> {
 
         if (dmaxy < uminy) return 1;
 
-        java.awt.Point inter = TrapezoidSolution.getYIntersection(up, dmaxy);
+        java.awt.Point inter = Trapezoidalization.getYIntersection(up, dmaxy);
 
         if (inter.x < dmaxx) {
             return mul;

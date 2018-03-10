@@ -1,3 +1,7 @@
+// GroupID-11 (14114013_14114065) - Anshul Shah & Suraj Gupta
+// Date: March 7, 2018
+// Segment.java - Data Structure for a Line Segment used while rendering
+
 package cgcp2.ds;
 
 public class Segment implements Comparable<Segment> {

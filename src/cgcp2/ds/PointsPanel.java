@@ -1,8 +1,11 @@
+// GroupID-11 (14114013_14114065) - Anshul Shah & Suraj Gupta
+// Date: March 7, 2018
+// PointsPanel.java - Rendering Logic on JPanel
+
 package cgcp2.ds;
 
 import java.util.ArrayList;
 import javax.swing.JPanel;
-
 
 import java.awt.*;
 import java.awt.Point;
@@ -20,7 +23,7 @@ public class PointsPanel extends JPanel {
     private HashMap<Point, Integer> colour;
     Boolean finale;
     private PolygonSolution polygonSolution;
-    private TrapezoidSolution trapezoidSolution;
+    private Trapezoidalization trapezoidalization;
     private MonotonePartition monotonePartition;
     private DualitySolution dualitySolution;
 
@@ -32,7 +35,7 @@ public class PointsPanel extends JPanel {
     public PointsPanel() {
         dcel = new DCEL();
         polygonSolution = new PolygonSolution();
-        trapezoidSolution = new TrapezoidSolution();
+        trapezoidalization = new Trapezoidalization();
         monotonePartition = new MonotonePartition();
         dualitySolution = new DualitySolution();
 
@@ -92,9 +95,9 @@ public class PointsPanel extends JPanel {
     public void trapezoidalization() {
         trapezoidalLines.clear();
         partitionLines.clear();
-        trapezoidSolution.dcel = dcel;
-        trapezoidSolution.trapezoidalLines = trapezoidalLines;
-        trapezoidSolution.generateTrap();
+        trapezoidalization.dcel = dcel;
+        trapezoidalization.trapezoidalLines = trapezoidalLines;
+        trapezoidalization.generateTrap();
 
         repaint();
     }
