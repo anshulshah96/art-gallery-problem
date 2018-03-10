@@ -11,7 +11,6 @@ public class DualitySolution {
     public ArrayList<Segment> dualEdges;
     public HashMap<Face, ArrayList<Face>> adjList;
     public ArrayList<Vertex> dualVertices;
-    public HashMap<Vertex, Integer> vCount;
     public TreeMap<Face, Integer> adjCount;
     public Face of;
     public Face start;

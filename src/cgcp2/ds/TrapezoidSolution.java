@@ -8,7 +8,7 @@ import java.util.TreeSet;
 public class TrapezoidSolution {
 
     public DCEL dcel;
-    public ArrayList<Segment> closestLines;
+    public ArrayList<Segment> trapezoidalLines;
 
     public void generateTrap() {
         for (Edge edge : dcel.edges) {
@@ -18,7 +18,7 @@ public class TrapezoidSolution {
             v2.type = getVType(v1, v2, v3);
         }
 
-        closestLines.clear();
+        trapezoidalLines.clear();
         TreeSet SList = new TreeSet<Edge>();
         for (Vertex v : dcel.vertices) {
             if (v.type == vType.start) {
@@ -37,7 +37,7 @@ public class TrapezoidSolution {
                 SList.add(be2);
                 Point lIntersection = getYIntersection(prev, v.coord.y);
                 Point rIntersection = getYIntersection(next, v.coord.y);
-                closestLines.add(new Segment(lIntersection, rIntersection));
+                trapezoidalLines.add(new Segment(lIntersection, rIntersection));
             } else if (v.type == vType.merge) {
                 Edge be1 = v.incidentEdge;
                 Edge be2 = v.incidentEdge.pEdge;
@@ -49,7 +49,7 @@ public class TrapezoidSolution {
 
                 Point lIntersection = getYIntersection(prev, v.coord.y);
                 Point rIntersection = getYIntersection(next, v.coord.y);
-                closestLines.add(new Segment(lIntersection, rIntersection));
+                trapezoidalLines.add(new Segment(lIntersection, rIntersection));
             } else if (v.type == vType.regL) {
                 Edge be = v.incidentEdge.pEdge;
                 Iterator<Edge> it = SList.iterator();
@@ -61,7 +61,7 @@ public class TrapezoidSolution {
                 boolean cont = SList.remove(be);
                 SList.add(v.incidentEdge);
                 Point rIntersection = getYIntersection(next, v.coord.y);
-                closestLines.add(new Segment(v.toPoint(), rIntersection));
+                trapezoidalLines.add(new Segment(v.toPoint(), rIntersection));
             } else if (v.type == vType.regR) {
                 Edge be = v.incidentEdge;
                 Iterator it = SList.descendingIterator();
@@ -72,7 +72,7 @@ public class TrapezoidSolution {
                 SList.remove(be);
                 SList.add(v.incidentEdge.pEdge);
                 Point rIntersection = getYIntersection(next, v.coord.y);
-                closestLines.add(new Segment(v.toPoint(), rIntersection));
+                trapezoidalLines.add(new Segment(v.toPoint(), rIntersection));
             } else {
                 Edge b1 = v.incidentEdge;
                 Edge b2 = v.incidentEdge.pEdge;

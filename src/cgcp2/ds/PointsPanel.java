@@ -11,13 +11,12 @@ import java.util.HashMap;
 public class PointsPanel extends JPanel {
     private static DCEL dcel;
     private ArrayList<DCEL> dcelArrayList;
-    private ArrayList<Point> pointList;
-    private ArrayList<Point> circularLineList;
-    private ArrayList<Segment> trapLines;
+    private ArrayList<Point> pointArrayList;
+    private ArrayList<Point> circularPointList;
+    private ArrayList<Segment> trapezoidalLines;
     private ArrayList<Segment> partitionLines;
-    private ArrayList<Edge> partitionDiagonals;
-    private ArrayList<Segment> trigLines;
-    private DCEL mergedDCEL;
+    private ArrayList<Edge> monoPartDiagonals;
+    private ArrayList<Segment> triangulationLines;
     private HashMap<Point, Integer> colour;
     Boolean finale;
     private PolygonSolution polygonSolution;
@@ -37,16 +36,12 @@ public class PointsPanel extends JPanel {
         monotonePartition = new MonotonePartition();
         dualitySolution = new DualitySolution();
 
-        pointList = new ArrayList<Point>();
-
-        circularLineList = new ArrayList<Point>();
-
-        trapLines = new ArrayList<Segment>();
-
-        partitionLines = new ArrayList<Segment>();
-        partitionDiagonals = new ArrayList<>();
-
-        trigLines = new ArrayList<>();
+        pointArrayList = new ArrayList<>();
+        circularPointList = new ArrayList<>();
+        trapezoidalLines = new ArrayList<>();
+        partitionLines = new ArrayList<>();
+        monoPartDiagonals = new ArrayList<>();
+        triangulationLines = new ArrayList<>();
 
         //setting the background black
         setBackground(Color.black);
@@ -65,9 +60,9 @@ public class PointsPanel extends JPanel {
             int x = ll + (int) (Math.random() * (ul - ll));
             int y = ll + (int) (Math.random() * (ul - ll));
             y = -y;
-            pointList.add(new Point(3 * x, 3 * y));
+            pointArrayList.add(new Point(3 * x, 3 * y));
         }
-        System.out.println(pointList);
+        System.out.println(pointArrayList);
 
 //        DCEL not partitioned
 //        [java.awt.Point[x=160,y=-89], java.awt.Point[x=98,y=-182], java.awt.Point[x=298,y=-340], java.awt.Point[x=120,y=-291], java.awt.Point[x=130,y=-272], java.awt.Point[x=148,y=-163]]
@@ -83,35 +78,34 @@ public class PointsPanel extends JPanel {
 
     public void generatePolygon() {
         dcel = new DCEL();
-        trapLines.clear();
+        trapezoidalLines.clear();
         partitionLines.clear();
-        trigLines.clear();
-        polygonSolution.pointArrayList = pointList;
+        triangulationLines.clear();
+        polygonSolution.pointArrayList = pointArrayList;
         polygonSolution.dcel = dcel;
         polygonSolution.generatePolygon();
-        circularLineList = polygonSolution.linePointList;
+        circularPointList = polygonSolution.circularPointList;
 
         repaint();
     }
 
     public void trapezoidalization() {
-        trapLines.clear();
-        trapezoidSolution.dcel = dcel;
+        trapezoidalLines.clear();
         partitionLines.clear();
-        trapezoidSolution.closestLines = trapLines;
+        trapezoidSolution.dcel = dcel;
+        trapezoidSolution.trapezoidalLines = trapezoidalLines;
         trapezoidSolution.generateTrap();
-        trapLines = trapezoidSolution.closestLines;
 
         repaint();
     }
 
     public void monotonePartition() {
-        monotonePartition.dcel = dcel;
-        trapLines.clear();
+        trapezoidalLines.clear();
         partitionLines.clear();
-        partitionDiagonals.clear();
-        monotonePartition.partitionLines = partitionLines;
-        monotonePartition.partitionDiagonals = partitionDiagonals;
+        monoPartDiagonals.clear();
+        monotonePartition.dcel = dcel;
+        monotonePartition.monoPartLines = partitionLines;
+        monotonePartition.monoPartDiagonals = monoPartDiagonals;
         monotonePartition.generate();
 
         dcelArrayList = monotonePartition.getSeparateDCEL();
@@ -120,10 +114,10 @@ public class PointsPanel extends JPanel {
     }
 
     public void triangulatePartitions() {
-        trigLines.clear();
-        trapLines.clear();
+        triangulationLines.clear();
+        trapezoidalLines.clear();
         for (DCEL dcel : dcelArrayList) {
-            Triangulation trisol = new Triangulation(dcel, trigLines);
+            Triangulation trisol = new Triangulation(dcel, triangulationLines);
             trisol.generate();
         }
 
@@ -132,14 +126,14 @@ public class PointsPanel extends JPanel {
 
     public void dualGraph() {
         dualitySolution.dcelArrayList = dcelArrayList;
-        dualitySolution.partitionDiagonals = partitionDiagonals;
+        dualitySolution.partitionDiagonals = monoPartDiagonals;
         dualitySolution.generate();
 
         repaint();
     }
 
     public void threecolor() {
-        trigLines.clear();
+        triangulationLines.clear();
         partitionLines.clear();
         dualitySolution.solve();
         colour = dualitySolution.colour;
@@ -159,8 +153,8 @@ public class PointsPanel extends JPanel {
         //Showing the Points
         page.setFont(new Font("TimesRoman", Font.PLAIN, 20));
         page.setColor(Color.green);
-        for (Point spot : pointList) {
-            if (finale) {
+        for (Point spot : pointArrayList) {
+            if (finale) { // If min vertex guard solution is present
                 if (colour.get(spot) == 1)
                     page.setColor(Color.RED);
                 else if (colour.get(spot) == 2)
@@ -175,24 +169,24 @@ public class PointsPanel extends JPanel {
                     page.fillOval(spot.x - 3, -1 * spot.y - 3, 7, 7);
                 }
                 page.setColor(Color.GREEN);
-                page.drawString("Vertex Guards: " + dualitySolution.ct[dualitySolution.minc], 5, 40);
+                page.drawString("Vertex Guards: " + dualitySolution.ct[dualitySolution.minc], 5, 42);
             } else
                 page.fillOval(spot.x - 3, -1 * spot.y - 3, 7, 7);
         }
 
         //rendering the polygon constructed
         page.setColor(Color.orange);
-        if (circularLineList != null && circularLineList.size() > 1) {
-            for (int ii = 0; ii < circularLineList.size() - 1; ii++) {
-                page.drawLine(circularLineList.get(ii).x, -1 * circularLineList.get(ii).y, circularLineList.get(ii + 1).x, -1 * circularLineList.get(ii + 1).y);
+        if (circularPointList != null && circularPointList.size() > 1) {
+            for (int ii = 0; ii < circularPointList.size() - 1; ii++) {
+                page.drawLine(circularPointList.get(ii).x, -1 * circularPointList.get(ii).y, circularPointList.get(ii + 1).x, -1 * circularPointList.get(ii + 1).y);
             }
-            page.drawLine(circularLineList.get(circularLineList.size() - 1).x, -1 * circularLineList.get(circularLineList.size() - 1).y, circularLineList.get(0).x, -1 * circularLineList.get(0).y);
+            page.drawLine(circularPointList.get(circularPointList.size() - 1).x, -1 * circularPointList.get(circularPointList.size() - 1).y, circularPointList.get(0).x, -1 * circularPointList.get(0).y);
         }
         //rendering the Trapezoidalization segments
         page.setColor(Color.white);
-        if (trapLines != null && trapLines.size() > 0) {
-            for (int ii = 0; ii < trapLines.size(); ii++)
-                page.drawLine(trapLines.get(ii).a.x, -1 * trapLines.get(ii).a.y, trapLines.get(ii).b.x, -1 * trapLines.get(ii).b.y);
+        if (trapezoidalLines != null && trapezoidalLines.size() > 0) {
+            for (int ii = 0; ii < trapezoidalLines.size(); ii++)
+                page.drawLine(trapezoidalLines.get(ii).a.x, -1 * trapezoidalLines.get(ii).a.y, trapezoidalLines.get(ii).b.x, -1 * trapezoidalLines.get(ii).b.y);
         }
 
         //rendering the partition segments
@@ -204,11 +198,12 @@ public class PointsPanel extends JPanel {
 
         //rendering the trig segments
         page.setColor(Color.GREEN);
-        if (trigLines != null && trigLines.size() > 0) {
-            for (int ii = 0; ii < trigLines.size(); ii++)
-                page.drawLine(trigLines.get(ii).a.x, -1 * trigLines.get(ii).a.y, trigLines.get(ii).b.x, -1 * trigLines.get(ii).b.y);
+        if (triangulationLines != null && triangulationLines.size() > 0) {
+            for (int ii = 0; ii < triangulationLines.size(); ii++)
+                page.drawLine(triangulationLines.get(ii).a.x, -1 * triangulationLines.get(ii).a.y, triangulationLines.get(ii).b.x, -1 * triangulationLines.get(ii).b.y);
         }
 
+        //rendering dual tree edges and vertices
         if (dualitySolution.dualEdges != null && dualitySolution.dualEdges.size() > 0) {
             page.setColor(Color.YELLOW);
             if (dualitySolution.dualEdges != null && dualitySolution.dualEdges.size() > 0) {
@@ -224,17 +219,17 @@ public class PointsPanel extends JPanel {
 
         page.setColor(Color.GREEN);
         //display the points count
-        page.drawString("Vertices: " + pointList.size(), 5, 20);
+        page.drawString("Vertices: " + pointArrayList.size(), 5, 20);
     }
 
     //this method clears the canvas
     public void clear() {
         //clear all list of points and waypoints
-        pointList.clear();
-        circularLineList.clear();
-        trapLines.clear();
+        pointArrayList.clear();
+        circularPointList.clear();
+        trapezoidalLines.clear();
         partitionLines.clear();
-        trigLines.clear();
+        triangulationLines.clear();
         dualitySolution = new DualitySolution();
         //clear the canvas
         finale = false;

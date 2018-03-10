@@ -1,7 +1,5 @@
 package cgcp2.ds;
 
-import com.sun.corba.se.impl.interceptors.PICurrent;
-
 import java.awt.Point;
 import java.util.*;
 
@@ -9,7 +7,7 @@ public class PolygonSolution {
 
     public DCEL dcel;
     public ArrayList<Point> pointArrayList;
-    public ArrayList<Point> linePointList;
+    public ArrayList<Point> circularPointList;
 
     public void generatePolygon() {
         pointArrayList.sort((o1, o2) -> {
@@ -36,7 +34,7 @@ public class PolygonSolution {
         });
         nxtList.add(minPoint);
         Collections.reverse(nxtList);
-        linePointList = (ArrayList<Point>) nxtList.clone();
+        circularPointList = (ArrayList<Point>) nxtList.clone();
 
         Face iFace = new Face(null);
         Face oFace = new Face(null);
@@ -86,7 +84,7 @@ public class PolygonSolution {
     public void generatePolygon2() {
         ArrayList<Point> nxtList = (ArrayList<Point>) pointArrayList.clone();
         Collections.reverse(nxtList);
-        linePointList = (ArrayList<Point>) nxtList.clone();
+        circularPointList = (ArrayList<Point>) nxtList.clone();
 
         Face iFace = new Face(null);
         Face oFace = new Face(null);

@@ -5,17 +5,17 @@ import java.util.*;
 
 public class MonotonePartition {
     public DCEL dcel;
-    public ArrayList<Segment> partitionLines;
-    public ArrayList<Edge> partitionDiagonals;
+    public ArrayList<Segment> monoPartLines;
+    public ArrayList<Edge> monoPartDiagonals;
 
     public MonotonePartition() {
-        partitionLines = new ArrayList<>();
-        partitionDiagonals = new ArrayList<>();
+        monoPartLines = new ArrayList<>();
+        monoPartDiagonals = new ArrayList<>();
     }
 
     public void generate() {
-        partitionLines.clear();
-        partitionDiagonals.clear();
+        monoPartLines.clear();
+        monoPartDiagonals.clear();
 
         TreeSet<Edge> SList = new TreeSet<Edge>();
         TreeMap<Edge, Vertex> helper = new TreeMap<Edge, Vertex>();
@@ -92,7 +92,7 @@ public class MonotonePartition {
                 }
             }
         }
-        dcel.addEdges(partitionDiagonals);
+        dcel.addEdges(monoPartDiagonals);
     }
 
     public void printAllFaces() {
@@ -156,8 +156,8 @@ public class MonotonePartition {
     }
 
     private void addEdge(Vertex v1, Vertex v2) {
-        partitionLines.add(new Segment(v1.toPoint(), v2.toPoint()));
-        partitionDiagonals.add(new Edge(v1, v2));
+        monoPartLines.add(new Segment(v1.toPoint(), v2.toPoint()));
+        monoPartDiagonals.add(new Edge(v1, v2));
     }
 
     public DCEL mergePartitions(ArrayList<Edge> partitionDiagonals, ArrayList<DCEL> dcelArrayList) {
