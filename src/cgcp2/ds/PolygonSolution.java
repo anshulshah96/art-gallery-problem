@@ -1,5 +1,7 @@
 package cgcp2.ds;
 
+import com.sun.corba.se.impl.interceptors.PICurrent;
+
 import java.awt.Point;
 import java.util.*;
 
@@ -24,7 +26,11 @@ public class PolygonSolution {
         nxtList.remove(0);
         nxtList.sort((o1, o2) -> {
             double slope1 = Math.atan2(o1.y - minPoint.y, o1.x - minPoint.x);
+            if (slope1==Math.PI)
+                slope1 = -Math.PI;
             double slope2 = Math.atan2(o2.y - minPoint.y, o2.x - minPoint.x);
+            if (slope2 == Math.PI)
+                slope2 = -Math.PI;
             if (slope1 < slope2) return 1;
             else return -1;
         });
@@ -78,27 +84,8 @@ public class PolygonSolution {
     }
 
     public void generatePolygon2() {
-        Point mPoint = pointArrayList.get(0);
-        int ymin = 1000;
-        for(Point p: pointArrayList) {
-            if(p.y < ymin) {
-                mPoint = p;
-                ymin = p.y;
-            }
-        }
-
-        Point minPoint = mPoint;
-
         ArrayList<Point> nxtList = (ArrayList<Point>) pointArrayList.clone();
-//        nxtList.remove(0);
-//        nxtList.sort((o1, o2) -> {
-//            double slope1 = Math.atan2(o1.y - minPoint.y, o1.x - minPoint.x);
-//            double slope2 = Math.atan2(o2.y - minPoint.y, o2.x - minPoint.x);
-//            if (slope1 < slope2) return 1;
-//            else return -1;
-//        });
-//        nxtList.add(minPoint);
-//        Collections.reverse(nxtList);
+        Collections.reverse(nxtList);
         linePointList = (ArrayList<Point>) nxtList.clone();
 
         Face iFace = new Face(null);

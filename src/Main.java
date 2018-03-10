@@ -69,6 +69,7 @@ public class Main extends JFrame {
         Action partition = new PartitionAction();
         Action triangulation = new TriangulationAction();
         Action dual = new DualGraphAction();
+        Action threecolor = new ThreeColorAction();
 
         // Populate the menus using Action objects
         filemenu.add(clear);
@@ -86,6 +87,7 @@ public class Main extends JFrame {
         toolbar.add(partition);
         toolbar.add(triangulation);
         toolbar.add(dual);
+        toolbar.add(threecolor);
         contentPane.add(toolbar, BorderLayout.NORTH);
     }
 
@@ -111,7 +113,7 @@ public class Main extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            int n = 10;
+            int n = 20;
             pane.clear();
             pane.initPoints(n);
         }
@@ -169,6 +171,17 @@ public class Main extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             pane.dualGraph();
+        }
+    }
+
+    class ThreeColorAction extends AbstractAction {
+        public ThreeColorAction() {
+            super("ThreeColor");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            pane.threecolor();
         }
     }
 

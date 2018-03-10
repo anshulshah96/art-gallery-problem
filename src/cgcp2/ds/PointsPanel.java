@@ -61,16 +61,16 @@ public class PointsPanel extends JPanel {
     public void initPoints(int n) {
         clear();
 
-//        int ll = 50;
-//        int ul = 350;
-//
-//        for (int i = 0; i < n; i++) {
-//            int x = ll + (int) (Math.random() * (ul - ll));
-//            int y = ll + (int) (Math.random() * (ul - ll));
-//            y = -y;
-//            pointList.add(new Point(x, y));
-//        }
-//        System.out.println(pointList);
+        int ll = 25;
+        int ul = 275;
+
+        for (int i = 0; i < n; i++) {
+            int x = ll + (int) (Math.random() * (ul - ll));
+            int y = ll + (int) (Math.random() * (ul - ll));
+            y = -y;
+            pointList.add(new Point(2*x, 2*y));
+        }
+        System.out.println(pointList);
 
 //        DCEL not partitioned
 //        [java.awt.Point[x=160,y=-89], java.awt.Point[x=98,y=-182], java.awt.Point[x=298,y=-340], java.awt.Point[x=120,y=-291], java.awt.Point[x=130,y=-272], java.awt.Point[x=148,y=-163]]
@@ -81,17 +81,18 @@ public class PointsPanel extends JPanel {
 //        [java.awt.Point[x=102,y=-160], java.awt.Point[x=55,y=-124], java.awt.Point[x=273,y=-286], java.awt.Point[x=228,y=-321], java.awt.Point[x=73,y=-176], java.awt.Point[x=193,y=-182]]
 //        Triangulation issues
 //        [java.awt.Point[x=63,y=-247], java.awt.Point[x=165,y=-274], java.awt.Point[x=100,y=-197], java.awt.Point[x=132,y=-212], java.awt.Point[x=187,y=-245], java.awt.Point[x=312,y=-283], java.awt.Point[x=344,y=-98], java.awt.Point[x=237,y=-178], java.awt.Point[x=107,y=-137], java.awt.Point[x=243,y=-259]]
-        pointList.add(new Point(63, -247));
-        pointList.add(new Point(165, -274));
-        pointList.add(new Point(100, -197));
-        pointList.add(new Point(132, -212));
-        pointList.add(new Point(187, -245));
-        pointList.add(new Point(312, -283));
+//
+//        pointList.add(new Point(165, -324));
+//        pointList.add(new Point(74, -236));
+//        pointList.add(new Point(119, -344));
+//        pointList.add(new Point(142, -236));
+//        pointList.add(new Point(116, -330));
+//        pointList.add(new Point(240, -327));
 
-        pointList.add(new Point(344, -98));
-        pointList.add(new Point(237, -178));
-        pointList.add(new Point(107, -137));
-        pointList.add(new Point(243, -259));
+//        pointList.add(new Point(344, -98));
+//        pointList.add(new Point(237, -178));
+//        pointList.add(new Point(107, -137));
+//        pointList.add(new Point(243, -259));
 
 
         repaint();
@@ -151,12 +152,19 @@ public class PointsPanel extends JPanel {
         dualitySolution.dcelArrayList = dcelArrayList;
         dualitySolution.partitionDiagonals = partitionDiagonals;
         dualitySolution.generate();
-        dualitySolution.solve();
-        colour = dualitySolution.colour;
-        finale = true;
         repaint();
     }
 
+    public void threecolor() {
+        trigLines.clear();
+        partitionLines.clear();
+        dualitySolution.solve();
+        colour = dualitySolution.colour;
+        finale = true;
+        dualitySolution.dualEdges.clear();
+        dualitySolution.dualVertices.clear();
+        repaint();
+    }
     //------------------------------------------------------------
     //  Draws all of the points stored in the list.
     //-----------------------------------------------------------
@@ -175,15 +183,25 @@ public class PointsPanel extends JPanel {
                     page.setColor(Color.BLUE);
                 else
                     page.setColor(Color.GREEN);
+                if (colour.get(spot) == dualitySolution.minc) {
+                    page.fillOval(spot.x - 8, -1 * spot.y - 8, 17, 17);
+                }
+                else {
+                    page.fillOval(spot.x - 3, -1 * spot.y - 3, 7, 7);
+                }
             }
+            else
             page.fillOval(spot.x - 3, -1 * spot.y - 3, 7, 7);
         }
 
         //rendering the convex hull demonstration
         page.setColor(Color.orange);
         if (circularLineList != null && circularLineList.size() > 1) {
-            for (int ii = 0; ii < circularLineList.size() - 1; ii++)
+            for (int ii = 0; ii < circularLineList.size() - 1; ii++) {
+                Point p = circularLineList.get(ii);
+                Point q = circularLineList.get(ii+1);
                 page.drawLine(circularLineList.get(ii).x, -1 * circularLineList.get(ii).y, circularLineList.get(ii + 1).x, -1 * circularLineList.get(ii + 1).y);
+            }
             page.drawLine(circularLineList.get(circularLineList.size() - 1).x, -1 * circularLineList.get(circularLineList.size() - 1).y, circularLineList.get(0).x, -1 * circularLineList.get(0).y);
         }
         //rendering the closest segments

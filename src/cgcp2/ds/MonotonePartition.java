@@ -151,7 +151,7 @@ public class MonotonePartition {
             PolygonSolution polygonSolution = new PolygonSolution();
             polygonSolution.dcel = dcel;
             polygonSolution.pointArrayList = pointArrayList;
-            polygonSolution.generatePolygon();
+            polygonSolution.generatePolygon2();
             dcelArrayList.add(dcel);
         }
         return dcelArrayList;

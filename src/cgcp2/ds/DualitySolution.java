@@ -16,6 +16,8 @@ public class DualitySolution {
     public Face of;
     public Face start;
     public HashMap<Point, Integer> colour;
+    public int[] ct = new int[4];
+    public int minc;
 
     public void generate() {
         dualEdges = new ArrayList<>();
@@ -106,15 +108,25 @@ public class DualitySolution {
             }
         }
 
+        ct = new int[4];
         ArrayList<Vertex> vList = start.getVertices();
         int i=1;
         for(Vertex ver: vList) {
             Point v = ver.toPoint();
             colour.put(v,i);
+            ct[i]++;
             i++;
         }
         dfs(start, null);
 
+        int min=Integer.MAX_VALUE;
+        for(int j=1;j<=3;j++) {
+            if(ct[j]<min)
+            {
+                min=ct[j];
+                minc = j;
+            }
+        }
     }
 
     private void dfs(Face face, Face par)
@@ -136,12 +148,19 @@ public class DualitySolution {
                     else
                         b3 = true;
                 }
-                if(!b1)
+                if(!b1) {
                     colour.put(rem,1);
-                if(!b2)
+                    ct[1]++;
+                }
+                if(!b2) {
                     colour.put(rem,2);
-                if(!b3)
+                    ct[2]++;
+                }
+                if(!b3) {
                     colour.put(rem,3);
+                    ct[3]++;
+                }
+
                 dfs(ftemp, face);
             }
         }
