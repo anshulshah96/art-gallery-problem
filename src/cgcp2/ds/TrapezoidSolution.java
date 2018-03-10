@@ -62,7 +62,7 @@ public class TrapezoidSolution {
                 SList.add(v.incidentEdge);
                 Point rIntersection = getYIntersection(next, v.coord.y);
                 closestLines.add(new Segment(v.toPoint(), rIntersection));
-            } else if(v.type == vType.regR) {
+            } else if (v.type == vType.regR) {
                 Edge be = v.incidentEdge;
                 Iterator it = SList.descendingIterator();
                 while (it.next() != be) {
@@ -73,18 +73,16 @@ public class TrapezoidSolution {
                 SList.add(v.incidentEdge.pEdge);
                 Point rIntersection = getYIntersection(next, v.coord.y);
                 closestLines.add(new Segment(v.toPoint(), rIntersection));
-            }
-            else {
+            } else {
                 Edge b1 = v.incidentEdge;
                 Edge b2 = v.incidentEdge.pEdge;
 
-                if(b1.dest.coord.y == b1.origin.coord.y) {
+                if (b1.dest.coord.y == b1.origin.coord.y) {
                     if (SList.contains(b2))
                         SList.remove(b2);
                     else
                         SList.add(b2);
-                }
-                else {
+                } else {
                     if (SList.contains(b1))
                         SList.remove(b1);
                     else
@@ -99,9 +97,9 @@ public class TrapezoidSolution {
         double sy = edge.origin.coord.y;
         double ex = edge.dest.coord.x;
         double ey = edge.dest.coord.y;
-        if(sy==y)
+        if (sy == y)
             return edge.origin.toPoint();
-        if(ey==y)
+        if (ey == y)
             return edge.dest.toPoint();
         double ans = sx + (y - sy) * ((ex - sx) / (ey - sy));
         return new Point((int) ans, (int) y);

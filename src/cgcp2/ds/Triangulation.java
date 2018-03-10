@@ -25,39 +25,36 @@ public class Triangulation {
         Vertex topmost = dcel.vertices.first();
         Vertex bottom = dcel.vertices.last();
         Vertex current = topmost;
-        while(current!= bottom) {
+        while (current != bottom) {
             vSide.put(current, side.left);
             current = current.incidentEdge.dest;
         }
-        while(current != topmost) {
+        while (current != topmost) {
             vSide.put(current, side.right);
             current = current.incidentEdge.dest;
         }
         Stack<Vertex> vst = new Stack<>();
         int i = 0;
-        for(Vertex vertex : dcel.vertices) {
+        for (Vertex vertex : dcel.vertices) {
             i++;
-            if(i <= 2) {
+            if (i <= 2) {
                 vst.push(vertex);
                 continue;
             }
-            if(vSide.get(vertex) == vSide.get(vst.peek())) {
-                while(!isReflex(vertex, vst, vSide))
-                {
+            if (vSide.get(vertex) == vSide.get(vst.peek())) {
+                while (!isReflex(vertex, vst, vSide)) {
                     vst.pop();
-                    if(!dcel.isEdge(vertex, vst.peek())) {
+                    if (!dcel.isEdge(vertex, vst.peek())) {
                         trigLines.add(new Segment(vertex.toPoint(), vst.peek().toPoint()));
                         edgeArrayList.add(new Edge(vertex, vst.peek()));
                     }
                 }
                 vst.push(vertex);
-            }
-            else {
+            } else {
                 Vertex temp = vst.peek();
-                while(!vst.isEmpty())
-                {
-                    if(!dcel.isEdge(vertex, vst.peek())) {
-                        trigLines.add(new Segment(vertex.toPoint(),vst.peek().toPoint()));
+                while (!vst.isEmpty()) {
+                    if (!dcel.isEdge(vertex, vst.peek())) {
+                        trigLines.add(new Segment(vertex.toPoint(), vst.peek().toPoint()));
                         edgeArrayList.add(new Edge(vertex, vst.peek()));
                     }
                     vst.pop();
@@ -71,7 +68,7 @@ public class Triangulation {
     }
 
     private boolean isReflex(Vertex vertex, Stack<Vertex> vst, TreeMap<Vertex, side> vSide) {
-        if(vst.size() < 2)
+        if (vst.size() < 2)
             return true;
         Point v3 = vertex.toPoint();
         Vertex vp2 = vst.peek();
@@ -80,11 +77,10 @@ public class Triangulation {
         Point v1 = vst.peek().toPoint();
         vst.push(vp2);
 
-        double ans = (v1.x*v2.y + v2.x*v3.y + v3.x*v1.y) - (v1.y*v2.x + v2.y*v3.x + v3.y*v1.x);
-        if(vSide.get(vp2) == side.right) {
+        double ans = (v1.x * v2.y + v2.x * v3.y + v3.x * v1.y) - (v1.y * v2.x + v2.y * v3.x + v3.y * v1.x);
+        if (vSide.get(vp2) == side.right) {
             return ans > 0;
-        }
-        else
+        } else
             return ans < 0;
     }
 

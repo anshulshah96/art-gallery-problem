@@ -61,31 +61,29 @@ public class MonotonePartition {
 
                 SList.add(v.incidentEdge);
                 helper.put(v.incidentEdge, v);
-            } else if (v.type == vType.regR){
+            } else if (v.type == vType.regR) {
                 Edge dummyEdge = new Edge(v, v);
                 Edge prev = SList.floor(dummyEdge);
                 if (helper.get(prev).type == vType.merge) {
                     addEdge(v, helper.get(prev));
                 }
                 helper.put(prev, v);
-            }
-            else {
+            } else {
                 Edge b1 = v.incidentEdge;
                 Edge b2 = v.incidentEdge.pEdge;
                 Edge eprev = null;
-                if(b1.dest.coord.y == b1.origin.coord.y) {
+                if (b1.dest.coord.y == b1.origin.coord.y) {
                     eprev = b2;
-                    if(SList.contains(eprev)) {
+                    if (SList.contains(eprev)) {
                         if (helper.get(eprev).type == vType.merge) {
                             addEdge(v, helper.get(eprev));
                         }
                         helper.remove(eprev);
                         SList.remove(eprev);
                     }
-                }
-                else {
+                } else {
                     eprev = b1;
-                    if(SList.contains(eprev))
+                    if (SList.contains(eprev))
                         System.out.println("Not possible");
                     else {
                         SList.add(eprev);

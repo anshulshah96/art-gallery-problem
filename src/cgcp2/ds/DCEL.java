@@ -54,6 +54,7 @@ public class DCEL {
         }
         return null;
     }
+
     public boolean addEdge(Edge edge) {
         if (isEdge(edge)) {
             return false;
@@ -115,7 +116,7 @@ public class DCEL {
 
     public Edge getSameEdge(Edge edge) {
         for (Edge cur : this.edges) {
-            if(cur.compareTo(edge) == 0) return cur;
+            if (cur.compareTo(edge) == 0) return cur;
         }
         return null;
     }
@@ -326,7 +327,7 @@ class Edge implements Comparable<Edge> {
     }
 
     public String toString() {
-        return origin.toString()+"|"+dest.toString();
+        return origin.toString() + "|" + dest.toString();
     }
 }
 

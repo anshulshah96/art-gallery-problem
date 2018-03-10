@@ -26,7 +26,7 @@ public class PolygonSolution {
         nxtList.remove(0);
         nxtList.sort((o1, o2) -> {
             double slope1 = Math.atan2(o1.y - minPoint.y, o1.x - minPoint.x);
-            if (slope1==Math.PI)
+            if (slope1 == Math.PI)
                 slope1 = -Math.PI;
             double slope2 = Math.atan2(o2.y - minPoint.y, o2.x - minPoint.x);
             if (slope2 == Math.PI)

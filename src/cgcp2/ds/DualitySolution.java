@@ -5,7 +5,7 @@ import java.util.*;
 
 
 public class DualitySolution {
-//    public DCEL dcel;
+    //    public DCEL dcel;
     public ArrayList<DCEL> dcelArrayList;
     public ArrayList<Edge> partitionDiagonals;
     public ArrayList<Segment> dualEdges;
@@ -49,9 +49,9 @@ public class DualitySolution {
 //            }
 //        }
 
-        for(DCEL dcel: dcelArrayList) {
-            for(Face face : dcel.faces) {
-                if(face.getNumVertices() == dcel.vertices.size() && face.edge.rFace==face) {
+        for (DCEL dcel : dcelArrayList) {
+            for (Face face : dcel.faces) {
+                if (face.getNumVertices() == dcel.vertices.size() && face.edge.rFace == face) {
                     of = face;
                     continue;
                 }
@@ -61,7 +61,7 @@ public class DualitySolution {
                 adjCount.put(face, 0);
             }
 
-            for(Edge edge : dcel.edges) {
+            for (Edge edge : dcel.edges) {
                 if (edge.rFace != of) {
                     Vertex v1 = edge.rFace.getMidPoint();
                     Vertex v2 = edge.lFace.getMidPoint();
@@ -74,7 +74,7 @@ public class DualitySolution {
         }
 
         Face face1 = null, face2 = null;
-        for(Edge diag: partitionDiagonals) {
+        for (Edge diag : partitionDiagonals) {
             face1 = null;
             face2 = null;
             for (DCEL dcel : dcelArrayList) {
@@ -101,63 +101,63 @@ public class DualitySolution {
 
         colour = new HashMap<>();
 
-        for(DCEL dcel: dcelArrayList) {
-            for(Vertex ver: dcel.vertices) {
+        for (DCEL dcel : dcelArrayList) {
+            for (Vertex ver : dcel.vertices) {
                 Point v = ver.toPoint();
-                colour.put(v,0);
+                colour.put(v, 0);
             }
         }
 
         ct = new int[4];
         ArrayList<Vertex> vList = start.getVertices();
-        int i=1;
-        for(Vertex ver: vList) {
+        int i = 1;
+        for (Vertex ver : vList) {
             Point v = ver.toPoint();
-            colour.put(v,i);
+            colour.put(v, i);
             ct[i]++;
             i++;
         }
         dfs(start, null);
 
-        int min=Integer.MAX_VALUE;
-        for(int j=1;j<=3;j++) {
-            if(ct[j]<min)
-            {
-                min=ct[j];
+        int min = Integer.MAX_VALUE;
+        for (int j = 1; j <= 3; j++) {
+            if (ct[j] < min) {
+                min = ct[j];
                 minc = j;
             }
         }
     }
 
-    private void dfs(Face face, Face par)
-    {
+    private void dfs(Face face, Face par) {
         Point rem = null;
-        Boolean b1,b2,b3;
-        for(Face ftemp:adjList.get(face)) {
-            if(ftemp != par) {
+        Boolean b1, b2, b3;
+        for (Face ftemp : adjList.get(face)) {
+            if (ftemp != par) {
                 ArrayList<Vertex> vList = ftemp.getVertices();
-                b1=false;b2=false;b3=false;
-                for(Vertex ver: vList) {
+                b1 = false;
+                b2 = false;
+                b3 = false;
+                for (Vertex ver : vList) {
                     Point v = ver.toPoint();
-                    if(colour.get(v)==0)
+                    if (colour.get(v) == 0)
                         rem = v;
-                    else if(colour.get(v)==1)
+                    else if (colour.get(v) == 1)
                         b1 = true;
-                    else if(colour.get(v)==2)
+                    else if (colour.get(v) == 2)
                         b2 = true;
                     else
                         b3 = true;
                 }
-                if(!b1) {
-                    colour.put(rem,1);
+                if (!b1) {
+                    colour.put(rem, 1);
                     ct[1]++;
                 }
-                if(!b2) {
-                    colour.put(rem,2);
+                if (!b2) {
+                    colour.put(rem, 2);
                     ct[2]++;
                 }
-                if(!b3) {
-                    colour.put(rem,3);
+                if (!b3) {
+                    colour.put(rem, 3);
                     ct[3]++;
                 }
 
